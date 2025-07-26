@@ -13,18 +13,26 @@ export async function createUsers() {
         const count = await userRepository.count();
         if (count > 0) return;
         const users = [
+           {
+             username:"superadministrador",
+            rut:"2148858-5",
+            email:"superadmin@alumnos.ubiobio.cl",
+            password: await encryptPassword("admin12345678"),
+             role: "superadministrador"
+
+            },
             {
                 username: "Administrador",
                 rut: "12345678-9",
-                email: "admin@gmail.com",
-                password: await encryptPassword("admin123"),
+                email: "admin@alumnos.ubiobio.cl",
+                password: await encryptPassword("admin123123"),
                 role: "administrador"
             },
             {
                 username: "Usuario",
                 rut: "98765432-1",
-                email: "usuario@gmail.com",
-                password: await encryptPassword("usuario123"),
+                email: "usuario@alumnos.ubiobio.cl",
+                password: await encryptPassword("usuario1234567"),
                 role: "usuario"
             }
         ]
