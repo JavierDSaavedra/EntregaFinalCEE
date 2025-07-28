@@ -26,14 +26,34 @@ export async function createUsers() {
                 email: "usuario@alumnos.ubiobio.cl.com",
                 password: await encryptPassword("usuario123"),
                 role: "usuario"
+            },{
+                username: "SuperAdministrador",
+                rut: "11222333-4",
+                email: "superadmin@alumnos.ubiobio.cl",
+                password: await encryptPassword("superadmin123"),
+                role: "superadministrador"
             },
             {
-                username: "Usuario",
-                rut: "98765432-1",
-                email: "usuario@alumnos.ubiobio.cl",
-                password: await encryptPassword("usuario1234567"),
-                role: "usuario"
-            }
+                username: "Tesorer@",
+                rut: "44333222-1",
+                email: "tesorero@alumnos.ubiobio.cl",
+                password: await encryptPassword("plata123"),
+                role: "tesorero"
+            },
+            {
+                username: "President@",
+                rut: "11112222-1",
+                email: "presidente@alumnos.ubiobio.cl",
+                password: await encryptPassword("presidente123"),
+                role: "presidente"
+            },
+            {
+                username: "Secretari@",
+                rut: "22333444-5",
+                email: "secretario@alumnos.ubiobio.cl",
+                password: await encryptPassword("secretario123"),
+                role: "secretario"
+            }
         ]
 
         console.log("Creando usuarios...");
