@@ -17,7 +17,7 @@ export const createvalidation = joi.object({
    .min(3)
    .max(100)
    .required()
-   .pattern(/^[a-zA-Z0-9_]+$/)
+   .pattern(/^[a-zA-Z0-9_\s]+$/)
    .message({
     "string.patter.base":"la descripcion solo puede contener letras y numero.",
     "string.min":"la descripcion debe tner minimo 3 caracteres.",
@@ -68,7 +68,7 @@ export const updatevalidation= joi.object({
    .min(3)
    .max(100)
    .required()
-   .pattern(/^[a-zA-Z0-9_]+$/)
+   .pattern(/^[a-zA-Z0-9_\s]+$/)
    .message({
     "string.patter.base":"la descripcion solo puede contener letras y numero.",
     "string.min":"la descripcion debe tner minimo 3 caracteres.",
