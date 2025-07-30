@@ -33,10 +33,7 @@ export async function createVotacion(req, res) {
             return res.status(400).json({
                 success: false,
                 message: "Error de validación",
-                details: error.details.map(d => ({
-                    field: d.path[0],
-                    message: d.message
-                }))
+                details: error.details
             });
         }
 
@@ -46,7 +43,7 @@ export async function createVotacion(req, res) {
             votacionDescripcion: req.body.votacionDescripcion,
             votacionFechaInicio: new Date(req.body.votacionFechaInicio),
             votacionFechaFin: new Date(req.body.votacionFechaFin),
-            votacionEstado: req.body.votacionEstado || 'pendiente'
+            votacionEstado: req.body.votacionEstado // Ya no necesitas el || 'pendiente' porque Joi lo establece
         });
 
         await votacionRepository.save(newVotacion);

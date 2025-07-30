@@ -65,24 +65,15 @@ export const votacionValidations = Joi.object({
         "date.invalid": "La fecha de fin debe ser válida",
         "date.after": "La fecha fin debe ser posterior a la fecha de inicio",
         }),
-
-    cantidadPreguntas: Joi.number()
-    .integer()
-    .min(1)
-    .required()  
-    .messages({
-        "number.base": "La cantidad de preguntas debe ser un número",
-        "number.integer": "La cantidad debe ser un entero",
-        "number.min": "Debe haber al menos 1 pregunta",
-    }),
-
-    estado: Joi.string()
+    votacionEstado: Joi.string()  // Cambia de 'estado' a 'votacionEstado'
         .valid('pendiente', 'activa', 'finalizada', 'cancelada')
-    .default('pendiente')
+        .default('pendiente')
         .messages({
-        "string.base": "El estado debe ser un texto",
+            "string.base": "El estado debe ser un texto",
+            "any.only": "El estado debe ser uno de: pendiente, activa, finalizada, cancelada"
         })
 });
+
 
 export const updatedVotacion = Joi.object({
     votacionTitulo: Joi.string()
@@ -159,10 +150,7 @@ export const updatedVotacion = Joi.object({
         "number.min": "Debe haber al menos 1 pregunta",
     }),
 
-    estado: Joi.string()
+votacionEstado: Joi.string()  // Cambia de 'estado' a 'votacionEstado'
         .valid('pendiente', 'activa', 'finalizada', 'cancelada')
-    .default('pendiente')
-        .messages({
-        "string.base": "El estado debe ser un texto",
-        })
+        .default('pendiente')
 });
