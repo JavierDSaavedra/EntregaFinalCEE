@@ -37,13 +37,11 @@ const Sidebar = () => {
               </NavLink>
             </li>
           )}
-          {["tesorero", "secretario", "presidente"].includes(userRole) && (
-            <li>
-              <NavLink to="/finanzas">
-                <TbReportMoney className="icon"/> Finanzas
-              </NavLink>
-            </li>
-          )}
+          <li>
+            <NavLink to="/finanzas">
+              <TbReportMoney className="icon"/> Finanzas
+            </NavLink>
+          </li>
           <li>
             <NavLink to="/profile">
               <CgProfile className="icon"/> Perfil

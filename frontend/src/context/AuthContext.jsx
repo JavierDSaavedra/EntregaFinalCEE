@@ -8,18 +8,24 @@ export const useAuth = () => useContext(AuthContext);
 
 export function AuthProvider({ children }) {
     const navigate = useNavigate();
-    const user = JSON.parse(sessionStorage.getItem('usuario')) || '';
-    const isAuthenticated = user ? true : false;
+    // Manejo robusto: null si no hay usuario válido
+    let user = null;
+    try {
+        user = JSON.parse(sessionStorage.getItem('usuario'));
+    } catch (e) {
+        user = null;
+    }
+    const isAuthenticated = !!(user && user.role);
 
     useEffect(() => {
         if (!isAuthenticated) {
             navigate('/login');
         }
-    }, [isAuthenticated, navigate])
+    }, [isAuthenticated, navigate]);
 
     return (
         <AuthContext.Provider value={{ isAuthenticated, user }}>
-            { children }
+            {children}
         </AuthContext.Provider>
-    )
+    );
 }

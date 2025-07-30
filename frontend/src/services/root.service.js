@@ -3,6 +3,7 @@ import cookies from 'js-cookie';
 
 const API_URL = 'http://localhost:3000/api';
 
+
 const instance = axios.create({
     baseURL: API_URL,
     headers: {
@@ -11,9 +12,15 @@ const instance = axios.create({
     withCredentials: true,
 });
 
+// Interceptor robusto: busca el token en cookie y en sessionStorage
 instance.interceptors.request.use(
     (config) => {
-        const token = cookies.get('jwt-auth', { path: "/" });
+        let token = cookies.get('jwt-auth', { path: "/" });
+        if (!token) {
+            // Busca en sessionStorage si no está en cookie
+            const userToken = sessionStorage.getItem('jwt-auth');
+            if (userToken) token = userToken;
+        }
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
         }
