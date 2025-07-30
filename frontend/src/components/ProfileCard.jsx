@@ -19,6 +19,9 @@ const ProfileCard = ({ user }) => {
           <p>
             <strong>Rol:</strong> {user.role}
           </p>
+          <p>
+            <strong>Generación:</strong> {user.Generacion || user.generacion || 'No especificada'}
+          </p>
         </div>
       </div>
     </div>

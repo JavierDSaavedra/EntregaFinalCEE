@@ -1,4 +1,3 @@
-"use strict";
 import { Router } from "express";
 import { getUsers, getUserById, getProfile, updateUserById, deleteUserById } from "../controllers/user.controller.js";
 import { authenticateJwt } from "../middleware/authentication.middleware.js";

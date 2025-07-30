@@ -15,7 +15,7 @@ export const PreguntaEntity = new EntitySchema({
             type: String,
             nullable: false,
         },
-        preguntaOpciones: {
+        opciones: {
             type: "json",
             nullable: true,
         },

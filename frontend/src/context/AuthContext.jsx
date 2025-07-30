@@ -15,7 +15,7 @@ export function AuthProvider({ children }) {
     } catch (e) {
         user = null;
     }
-    const isAuthenticated = !!(user && user.role);
+    const isAuthenticated = !!(user && (user.rol || user.role));
 
     useEffect(() => {
         if (!isAuthenticated) {

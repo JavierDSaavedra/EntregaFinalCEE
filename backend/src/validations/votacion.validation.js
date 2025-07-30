@@ -1,4 +1,3 @@
-"use strict";
 import Joi from "joi";
 
 export const votacionValidations = Joi.object({
@@ -27,7 +26,7 @@ export const votacionValidations = Joi.object({
         }),
 
     votacionFechaInicio: Joi.string()
-      .pattern(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/) // Formato YYYY-MM-DD HH:MM
+      .pattern(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/)
         .required()
         .custom((value, helpers) => {
         const fecha = new Date(value);
@@ -43,9 +42,8 @@ export const votacionValidations = Joi.object({
         "string.pattern.base": "Formato de fecha inválido. Use YYYY-MM-DD HH:MM",
         "date.invalid": "La fecha de inicio debe ser válida",
         }),
-
     votacionFechaFin: Joi.string()
-      .pattern(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/) // Formato YYYY-MM-DD HH:MM
+      .pattern(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/)
         .required()
         .custom((value, helpers) => {
         const { fechaInicio } = helpers.state.ancestors[0];
@@ -65,24 +63,15 @@ export const votacionValidations = Joi.object({
         "date.invalid": "La fecha de fin debe ser válida",
         "date.after": "La fecha fin debe ser posterior a la fecha de inicio",
         }),
-
-    cantidadPreguntas: Joi.number()
-    .integer()
-    .min(1)
-    .required()  
-    .messages({
-        "number.base": "La cantidad de preguntas debe ser un número",
-        "number.integer": "La cantidad debe ser un entero",
-        "number.min": "Debe haber al menos 1 pregunta",
-    }),
-
-    estado: Joi.string()
+    votacionEstado: Joi.string()
         .valid('pendiente', 'activa', 'finalizada', 'cancelada')
-    .default('pendiente')
+        .default('pendiente')
         .messages({
-        "string.base": "El estado debe ser un texto",
+            "string.base": "El estado debe ser un texto",
+            "any.only": "El estado debe ser uno de: pendiente, activa, finalizada, cancelada"
         })
 });
+
 
 export const updatedVotacion = Joi.object({
     votacionTitulo: Joi.string()
@@ -110,7 +99,7 @@ export const updatedVotacion = Joi.object({
         }),
 
     votacionFechaInicio: Joi.string()
-      .pattern(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/) // Formato YYYY-MM-DD HH:MM
+      .pattern(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/)
         .required()
         .custom((value, helpers) => {
         const fecha = new Date(value);
@@ -149,20 +138,5 @@ export const updatedVotacion = Joi.object({
         "date.after": "La fecha fin debe ser posterior a la fecha de inicio",
         }),
 
-    cantidadPreguntas: Joi.number()
-    .integer()
-    .min(1)
-    .required()  
-    .messages({
-        "number.base": "La cantidad de preguntas debe ser un número",
-        "number.integer": "La cantidad debe ser un entero",
-        "number.min": "Debe haber al menos 1 pregunta",
-    }),
-
-    estado: Joi.string()
-        .valid('pendiente', 'activa', 'finalizada', 'cancelada')
-    .default('pendiente')
-        .messages({
-        "string.base": "El estado debe ser un texto",
-        })
+    votacionEstado: Joi.string()
 });

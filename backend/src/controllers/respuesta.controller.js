@@ -1,15 +1,46 @@
-"use strict";
-
 import { AppDataSource } from "../config/configDb.js";
 import { respuestaValidations } from "../validations/respuesta.validation.js";
-import Respuesta from "../entity/respuesta.entity.js";
+import { RespuestaEntity } from "../entity/respuesta.entity.js";
 import Pregunta from "../entity/pregunta.entity.js";
 import Votacion from "../entity/votacion.entity.js";
 import User from "../entity/user.entity.js";
 
+export async function getResultadosPregunta(req, res) {
+    try {
+        const { preguntaId } = req.params;
+        // Validar que la pregunta existe antes de buscar respuestas
+        const preguntaRepository = AppDataSource.getRepository("Pregunta");
+        const pregunta = await preguntaRepository.findOneBy({ preguntaId: Number(preguntaId) });
+        if (!pregunta) {
+            return res.status(404).json({
+                success: false,
+                message: "Pregunta no encontrada"
+            });
+        }
+        const respuestaRepository = AppDataSource.getRepository("Respuesta");
+        const respuestas = await respuestaRepository.findBy({ preguntaId: Number(preguntaId) });
+        const conteo = {};
+        for (const r of respuestas) {
+            conteo[r.respuestaContenido] = (conteo[r.respuestaContenido] || 0) + 1;
+        }
+        res.status(200).json({
+            success: true,
+            data: conteo
+        });
+    } catch (error) {
+        console.error("Error al obtener resultados de pregunta:", error);
+        res.status(500).json({
+            success: false,
+            message: "Error interno al obtener resultados",
+            error: error.message
+        });
+    }
+}
+
+
 export async function getRespuestas(req, res) {
     try {
-        const respuestaRepository = AppDataSource.getRepository(Respuesta);
+        const respuestaRepository = AppDataSource.getRepository("Respuesta");
         const respuestas = await respuestaRepository.find({
             relations: ["usuario", "pregunta", "votacion"]
         });
@@ -43,7 +74,7 @@ export async function createRespuesta(req, res) {
             });
         }
 
-        // Asegurarse de que req.user.id existe
+        // Validar usuario autenticado
         if (!req.user?.id) {
             return res.status(401).json({
                 success: false,
@@ -51,10 +82,9 @@ export async function createRespuesta(req, res) {
             });
         }
 
-        const usuarioId = req.user.id; // ID del usuario autenticado
+        const usuarioId = req.user.id;
         const esAdmin = req.user.role === 'administrador';
         
-        // Si se envía usuarioId en el body, validar permisos
         if (value.usuarioId && value.usuarioId !== usuarioId && !esAdmin) {
             return res.status(403).json({
                 success: false,
@@ -62,9 +92,8 @@ export async function createRespuesta(req, res) {
             });
         }
 
-        // Verificar relaciones
-        const preguntaRepository = AppDataSource.getRepository(Pregunta);
-        const votacionRepository = AppDataSource.getRepository(Votacion);
+        const preguntaRepository = AppDataSource.getRepository("Pregunta");
+        const votacionRepository = AppDataSource.getRepository("Votacion");
 
         const [pregunta, votacion] = await Promise.all([
             preguntaRepository.findOneBy({ preguntaId: value.preguntaId }),
@@ -85,13 +114,12 @@ export async function createRespuesta(req, res) {
             });
         }
 
-        // Crear la respuesta
-        const respuestaRepository = AppDataSource.getRepository(Respuesta);
+        const respuestaRepository = AppDataSource.getRepository("Respuesta");
         const nuevaRespuesta = respuestaRepository.create({
             respuestaContenido: value.respuestaContenido,
             preguntaId: value.preguntaId,
             votacionId: value.votacionId,
-            usuarioId: value.usuarioId || usuarioId // Usar el del body o el del usuario autenticado
+            usuarioId: value.usuarioId || usuarioId
         });
 
         await respuestaRepository.save(nuevaRespuesta);
@@ -123,7 +151,7 @@ export async function updateRespuesta(req, res) {
             });
         }
 
-        const respuestaRepository = AppDataSource.getRepository(Respuesta);
+        const respuestaRepository = AppDataSource.getRepository("Respuesta");
         const existingRespuesta = await respuestaRepository.findOneBy({ 
             respuestaId: parseInt(id) 
         });
@@ -135,7 +163,6 @@ export async function updateRespuesta(req, res) {
             });
         }
 
-        // Verificar permisos (solo admin o dueño puede modificar)
         const esAdmin = req.user.role === 'administrador';
         const esDueño = existingRespuesta.usuarioId === req.user.id;
         
@@ -169,7 +196,15 @@ export async function deleteRespuesta(req, res) {
     try {
         const { id } = req.params;
 
-        const respuestaRepository = AppDataSource.getRepository(Respuesta);
+        // Validar usuario autenticado
+        if (!req.user?.id) {
+            return res.status(401).json({
+                success: false,
+                message: "Usuario no autenticado correctamente"
+            });
+        }
+
+        const respuestaRepository = AppDataSource.getRepository("Respuesta");
         const respuesta = await respuestaRepository.findOneBy({ 
             respuestaId: parseInt(id) 
         });
@@ -181,10 +216,8 @@ export async function deleteRespuesta(req, res) {
             });
         }
 
-        // Verificar permisos (solo admin o dueño puede eliminar)
         const esAdmin = req.user.role === 'administrador';
         const esDueño = respuesta.usuarioId === req.user.id;
-        
         if (!esAdmin && !esDueño) {
             return res.status(403).json({
                 success: false,

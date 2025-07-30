@@ -1,7 +1,6 @@
-"use strict";
 import { Router } from "express";
 import { authenticateJwt } from "../middleware/authentication.middleware.js";
-import { createVotacion, getVotaciones, deleteVotacion,updateVotacion, getVotacionesByEstado} from "../controllers/votacion.controller.js";
+import { createVotacion, getVotaciones, deleteVotacion, updateVotacion, getVotacionesByEstado } from "../controllers/votacion.controller.js";
 import { isCEE } from "../middleware/cee.middleware.js";
 
 const router = Router();

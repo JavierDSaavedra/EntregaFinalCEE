@@ -90,6 +90,7 @@ export async function login(req, res) {
       email: userFound.email,
       rut: userFound.rut,
       role: userFound.role,
+      Generacion: userFound.Generacion // <-- ahora se incluye en el token
     };
     const accessToken = jwt.sign(payload, SESSION_SECRET, { expiresIn: "1d" });
 

@@ -1,4 +1,3 @@
-"use strict";
 import { AppDataSource } from "../config/configDb.js";
 import { RespuestaEntity } from "../entity/respuesta.entity.js";
 import { UserEntity } from "../entity/user.entity.js";
@@ -16,7 +15,6 @@ export async function validateRespuesta(req, res, next) {
         const usuarioRepository = AppDataSource.getRepository(UserEntity);
         const votacionRepository = AppDataSource.getRepository(VotacionEntity);
 
-        // Validar usuario
         let usuarioIdAValidar = requestingUserId;
         if (userRole === 'administrador' && bodyUsuarioId) {
             usuarioIdAValidar = bodyUsuarioId;
@@ -34,9 +32,8 @@ export async function validateRespuesta(req, res, next) {
             });
         }
 
-        // Validar que existe la pregunta (CORRECCIÓN PRINCIPAL: usando preguntaId)
         const preguntaExiste = await preguntaRepository.findOneBy({ 
-            preguntaId: preguntaId  // ← Aquí está la corrección clave
+            preguntaId: preguntaId
         });
         
         if (!preguntaExiste) {
@@ -46,7 +43,6 @@ export async function validateRespuesta(req, res, next) {
             });
         }
 
-        // Validar que existe la votación
         const votacionExiste = await votacionRepository.findOneBy({ 
             votacionId: votacionId 
         });
@@ -57,7 +53,6 @@ export async function validateRespuesta(req, res, next) {
             });
         }
 
-        // Validar que la pregunta pertenece a la votación
         if (preguntaExiste.votacionId !== votacionId) {
             return res.status(400).json({ 
                 message: "La pregunta no pertenece a la votación especificada",
@@ -65,7 +60,6 @@ export async function validateRespuesta(req, res, next) {
             });
         }
 
-        // Validar respuesta duplicada
         const respuestaExistente = await respuestaRepository.findOne({
             where: {
                 usuarioId: usuarioIdAValidar,

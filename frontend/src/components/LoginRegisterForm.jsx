@@ -96,22 +96,47 @@ const LoginRegisterForm = ({ mode = "login", onSubmit, loginError}) => {
         </div>
 
         {mode === "register" && (
-          <div className="form-group">
-            <label>Rut:</label>
-            <input
-              type="text"
-              {...register("rut", {
-                required: "El rut es obligatorio",
-                pattern: {
-                  value: /^\d{2}\.\d{3}\.\d{3}-[\dkK]$/,
-                  message: "Formato rut inválido. Debe ser xx.xxx.xxx-x.",
-                },
-              })}
-            />
-            {errors.rut && (
-              <span className="form-error-container">{errors.rut.message}</span>
-            )}
-          </div>
+          <>
+            <div className="form-group">
+              <label>Rut:</label>
+              <input
+                type="text"
+                {...register("rut", {
+                  required: "El rut es obligatorio",
+                  pattern: {
+                    value: /^\d{2}\.\d{3}\.\d{3}-[\dkK]$/,
+                    message: "Formato rut inválido. Debe ser xx.xxx.xxx-x.",
+                  },
+                })}
+              />
+              {errors.rut && (
+                <span className="form-error-container">{errors.rut.message}</span>
+              )}
+            </div>
+            <div className="form-group">
+              <label>Generación (año de ingreso):</label>
+              <input
+                type="number"
+                min={1900}
+                max={new Date().getFullYear()}
+                {...register("Generacion", {
+                  required: "La generación es obligatoria",
+                  min: {
+                    value: 1900,
+                    message: "La generación debe ser al menos 1900",
+                  },
+                  max: {
+                    value: new Date().getFullYear(),
+                    message: `La generación no puede ser mayor que el año actual (${new Date().getFullYear()})`,
+                  },
+                  valueAsNumber: true
+                })}
+              />
+              {errors.Generacion && (
+                <span className="form-error-container">{errors.Generacion.message}</span>
+              )}
+            </div>
+          </>
         )}
 
         <div className="form-group">

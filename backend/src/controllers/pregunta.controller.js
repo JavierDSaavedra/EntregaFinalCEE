@@ -1,17 +1,22 @@
-"use strict";
-
 import { AppDataSource } from "../config/configDb.js";
 import { preguntaValidations } from "../validations/pregunta.validation.js";
-import  Pregunta  from "../entity/pregunta.entity.js";
-import  Votacion  from "../entity/votacion.entity.js";
+import Pregunta from "../entity/pregunta.entity.js";
+import Votacion from "../entity/votacion.entity.js";
 
 export async function getPreguntas(req, res) {
     try {
         const preguntaRepository = AppDataSource.getRepository(Pregunta);
-        const preguntas = await preguntaRepository.find({
-            relations: ["votacion", "respuestas"]
-        });
-
+        let preguntas;
+        if (req.query.votacionId) {
+            preguntas = await preguntaRepository.find({
+                where: { votacionId: Number(req.query.votacionId) },
+                relations: ["votacion", "respuestas"]
+            });
+        } else {
+            preguntas = await preguntaRepository.find({
+                relations: ["votacion", "respuestas"]
+            });
+        }
         res.status(200).json({
             success: true,
             message: "Preguntas obtenidas correctamente",
@@ -44,7 +49,6 @@ export async function createPregunta(req, res) {
         const preguntaRepository = AppDataSource.getRepository(Pregunta);
         const votacionRepository = AppDataSource.getRepository(Votacion);
         
-        // Verificar que existe la votación
         const votacion = await votacionRepository.findOneBy({ 
             votacionId: req.body.votacionId 
         });
@@ -58,7 +62,7 @@ export async function createPregunta(req, res) {
 
         const newPregunta = preguntaRepository.create({
             preguntaTitulo: req.body.preguntaTitulo,
-            preguntaOpciones: req.body.preguntaOpciones || [],
+            opciones: req.body.opciones || [],
             votacionId: req.body.votacionId
         });
 
@@ -83,7 +87,7 @@ export async function createPregunta(req, res) {
 export async function updatePregunta(req, res) {
     try {
         const { id } = req.params;
-        const { error } = preguntaValidations.validate(req.body);
+        const { error } = preguntaUpdateValidations.validate(req.body);
         if (error) {
             return res.status(400).json({
                 success: false,
@@ -104,7 +108,6 @@ export async function updatePregunta(req, res) {
             });
         }
 
-        // Verificar votación si se está actualizando
         if (req.body.votacionId) {
             const votacionRepository = AppDataSource.getRepository(Votacion);
             const votacion = await votacionRepository.findOneBy({ 
@@ -118,7 +121,6 @@ export async function updatePregunta(req, res) {
                 });
             }
         }
-
         const updatedPregunta = preguntaRepository.merge(pregunta, req.body);
         await preguntaRepository.save(updatedPregunta);
 

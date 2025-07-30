@@ -1,4 +1,3 @@
-"use strict";
 import UserEntity from "../entity/user.entity.js";
 import { AppDataSource } from "../config/configDb.js";
 import { Like } from "typeorm";
@@ -18,7 +17,6 @@ export async function GetAlumnos(req, res) {
       });
     }
 
-    // Elimina la contraseña de cada usuario
     const alumnosSinPassword = alumnos.map(({ password, ...rest }) => rest);
 
     res.status(200).json({ 
@@ -46,7 +44,6 @@ export async function GetAlumnosByGeneracion(req, res) {
       return res.status(404).json({ message: "No se encontraron alumnos para esa generación." });
     }
 
-    // Elimina la contraseña de cada usuario
     const usersSinPassword = users.map(({ password, ...rest }) => rest);
 
     res.status(200).json({ message: "Alumnos encontrados:", data: usersSinPassword });

@@ -1,5 +1,3 @@
-"use strict";
-
 import { AppDataSource } from "../config/configDb.js";
 import { votacionValidations } from "../validations/votacion.validation.js";
 import Votacion from "../entity/votacion.entity.js";
@@ -33,10 +31,7 @@ export async function createVotacion(req, res) {
             return res.status(400).json({
                 success: false,
                 message: "Error de validación",
-                details: error.details.map(d => ({
-                    field: d.path[0],
-                    message: d.message
-                }))
+                details: error.details
             });
         }
 
@@ -46,7 +41,7 @@ export async function createVotacion(req, res) {
             votacionDescripcion: req.body.votacionDescripcion,
             votacionFechaInicio: new Date(req.body.votacionFechaInicio),
             votacionFechaFin: new Date(req.body.votacionFechaFin),
-            votacionEstado: req.body.votacionEstado || 'pendiente'
+            votacionEstado: req.body.votacionEstado
         });
 
         await votacionRepository.save(newVotacion);

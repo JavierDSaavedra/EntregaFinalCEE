@@ -24,7 +24,7 @@ export async function createUsers() {
             {
                 username: "Usuario",
                 rut: "98765432-1",
-                email: "usuario@alumnos.ubiobio.cl.com",
+                email: "usuario@alumnos.ubiobio.cl",
                 password: await encryptPassword("usuario123"),
                 role: "user",
                 Generacion: "2025"

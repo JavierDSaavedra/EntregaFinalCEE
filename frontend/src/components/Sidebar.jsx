@@ -3,13 +3,14 @@ import { logout } from "@services/auth.service.js";
 import { FaHome, FaUsers, FaSignOutAlt } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 import { TbReportMoney } from "react-icons/tb";
+import { MdEvent } from "react-icons/md";
 import "@styles/Sidebar.css";
 
 const Sidebar = () => {
   const navigate = useNavigate();
 
   const user = JSON.parse(sessionStorage.getItem("usuario")) || "";
-  const userRole = user?.rol;
+  const userRole = user?.rol || user?.role;
 
   const logoutSubmit = () => {
     try {
@@ -30,13 +31,23 @@ const Sidebar = () => {
               <FaHome className="icon"/> Inicio
             </NavLink>
           </li>
-          {userRole === "administrador" && (
+          {(userRole === "administrador") && (
             <li>
               <NavLink to="/users">
                 <FaUsers className="icon"/> Usuarios
               </NavLink>
             </li>
           )}
+          <li>
+            <NavLink to="/eventos">
+              <MdEvent className="icon"/> Eventos
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/votaciones">
+              <MdEvent className="icon"/> Votaciones
+            </NavLink>
+          </li>
           <li>
             <NavLink to="/finanzas">
               <TbReportMoney className="icon"/> Finanzas
