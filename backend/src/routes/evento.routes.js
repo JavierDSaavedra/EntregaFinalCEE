@@ -8,8 +8,8 @@ const router = Router();
 router.use(authenticateJwt);
 
 router.get("/",getevento);
-router.get("/id",geteventobyid);
-router.post("/", isAdmin, createevento)
-router.put("/id",isAdmin,updateevento);
-router.delete("/id", isAdmin,deleteevento); 
+router.get("/:id",geteventobyid);
+router.post("/", createevento);
+router.put("/:id",updateevento);
+router.delete("/:id", deleteevento); 
 export default router;

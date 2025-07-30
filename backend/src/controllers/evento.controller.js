@@ -8,7 +8,7 @@ export async function getevento(req,res){
         const eventorepository =AppDataSource.getRepository(eventoEntity);
         const evento = await eventorepository.find();
 
-        res.status(200).json({messaje:" eventos encontrados",data: evento })
+        res.status(200).json({message:" eventos encontrados",data: evento })
       }  catch(error){
         console.error ("error al conseguir evento",error);
         res.status(500).json({messaje: "error al conseguir eventos"});
@@ -52,20 +52,43 @@ export async function createevento(req,res) {
 }
 
  export async function updateevento(req,res) {
-    const eventorepository = AppDataSource.getRepository(eventoEntity);
-    const{id}= req.params;
-    const{title,description,hour,date}=req.body;
-    const evento= await eventorepository.findOne({where: {id}});
+    try {
+        const eventorepository = AppDataSource.getRepository(eventoEntity);
+        const{id}= req.params;
+        const{title,description,hora_inicio,hora_fin,fecha_inicio}=req.body;
+        const evento= await eventorepository.findOne({where: {id}});
 
-     if(!evento) return res.status(400).json({message:"evento no encontrado"});
+        if(!evento) return res.status(404).json({message:"evento no encontrado"});
 
-     const{error} = updatevalidation.validate(req.body);
-     if (error) return res.status(400).json({message:error.message})
+        const{error} = updatevalidation.validate(req.body);
+        if (error) return res.status(400).json({message:error.message});
 
-     evento.title= title || evento.title
-    
+        evento.title= title || evento.title;
+        evento.description= description || evento.description;
+        evento.hora_inicio= hora_inicio || evento.hora_inicio;
+        evento.hora_fin= hora_fin || evento.hora_fin;
+        evento.fecha_inicio= fecha_inicio || evento.fecha_inicio;
+        
+        await eventorepository.save(evento);
+        res.status(200).json({message: "evento actualizado exitosamente", data: evento});
+    } catch (error) {
+        console.error("error al actualizar evento", error);
+        res.status(500).json({message: "error al actualizar evento"});
+    }
  }
 
  export async function deleteevento(req,res) {
-    
+    try {
+        const eventorepository = AppDataSource.getRepository(eventoEntity);
+        const{id}= req.params;
+        const evento= await eventorepository.findOne({where: {id}});
+
+        if(!evento) return res.status(404).json({message:"evento no encontrado"});
+
+        await eventorepository.remove(evento);
+        res.status(200).json({message: "evento eliminado exitosamente"});
+    } catch (error) {
+        console.error("error al eliminar evento", error);
+        res.status(500).json({message: "error al eliminar evento"});
+    }
  }

@@ -11,23 +11,23 @@ export const eventoEntity = new EntitySchema({
     },
     title:{
         type: String,
-        nullable:false,
+        nullable: true,
     },
     description:{
         type: String,
-        nullable:false,
+        nullable: true,
     },
     hora_inicio:{
         type: String,
-        nullable:false,
+        nullable: false,
     },
     hora_fin:{
         type: String,
-        nullable:false,
+        nullable: false,
     },
     fecha_inicio:{
         type: String,
-        nullable:false,
+        nullable: false,
     },
 
     createdAt:{

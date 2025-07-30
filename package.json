@@ -1,0 +1,20 @@
+{
+  "name": "backend-plantilla-mdd-2025-1",
+  "version": "1.0.0",
+  "description": "Este repositorio contiene el backend de la plantilla base para el proyecto semestral de Metodología del Desarrollo usando Node.js, Express y PostgreSQL. Sigue estos pasos para clonar, configurar y ejecutar el servidor localmente.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JavierDSaavedra/EntregaFinalCEE.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JavierDSaavedra/EntregaFinalCEE/issues"
+  },
+  "homepage": "https://github.com/JavierDSaavedra/EntregaFinalCEE#readme"
+}
