@@ -12,12 +12,10 @@ const instance = axios.create({
     withCredentials: true,
 });
 
-// Interceptor robusto: busca el token en cookie y en sessionStorage
 instance.interceptors.request.use(
     (config) => {
         let token = cookies.get('jwt-auth', { path: "/" });
         if (!token) {
-            // Busca en sessionStorage si no está en cookie
             const userToken = sessionStorage.getItem('jwt-auth');
             if (userToken) token = userToken;
         }

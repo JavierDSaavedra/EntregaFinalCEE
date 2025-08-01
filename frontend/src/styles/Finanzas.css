@@ -35,8 +35,176 @@
 .finanzas-totales-table .neto {
   color: #512da8;
 }
+
 .finanzas-page {
-  padding: 20px;
+  min-height: 100vh;
+  background: #f4f8fd;
+  padding: 40px 0 40px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.finanzas-header-container {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+.finanzas-title {
+  color: #512da8;
+  font-size: 2.1rem;
+  font-weight: 800;
+  margin: 0;
+}
+.finanzas-badges {
+  display: flex;
+  gap: 16px;
+}
+.badge-ingresos {
+  background: #e8f5e9;
+  color: #2e7d32;
+  font-weight: 700;
+  border-radius: 8px;
+  padding: 7px 18px;
+  font-size: 1.08rem;
+  border: 1.5px solid #a5d6a7;
+}
+.badge-egresos {
+  background: #ffebee;
+  color: #c62828;
+  font-weight: 700;
+  border-radius: 8px;
+  padding: 7px 18px;
+  font-size: 1.08rem;
+  border: 1.5px solid #ef9a9a;
+}
+.badge-neto {
+  background: #ede7f6;
+  color: #512da8;
+  font-weight: 700;
+  border-radius: 8px;
+  padding: 7px 18px;
+  font-size: 1.08rem;
+  border: 1.5px solid #b39ddb;
+}
+
+.finanzas-actions-bar {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 18px;
+  gap: 12px;
+}
+.finanzas-btn {
+  padding: 10px 22px;
+  border-radius: 7px;
+  border: none;
+  font-size: 1.08rem;
+  font-weight: 700;
+  font-family: 'Montserrat', 'Roboto', Arial, sans-serif;
+  cursor: pointer;
+  box-shadow: 0 1px 4px #b3d8fd33;
+  transition: background 0.18s, color 0.18s;
+}
+.finanzas-btn.agregar {
+  background: linear-gradient(90deg, #1976d2 60%, #512da8 100%);
+  color: #fff;
+}
+.finanzas-btn.editar {
+  background: linear-gradient(90deg, #512da8 60%, #1976d2 100%);
+  color: #fff;
+  margin-right: 8px;
+}
+.finanzas-btn.eliminar {
+  background: linear-gradient(90deg, #f44336 60%, #512da8 100%);
+  color: #fff;
+}
+.finanzas-btn.agregar:hover {
+  background: linear-gradient(90deg, #0d2346 60%, #512da8 100%);
+}
+.finanzas-btn.editar:hover {
+  background: linear-gradient(90deg, #311b92 60%, #1976d2 100%);
+}
+.finanzas-btn.eliminar:hover {
+  background: linear-gradient(90deg, #d32f2f 60%, #512da8 100%);
+}
+
+.finanzas-table-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-radius: 14px;
+  box-shadow: 0 2px 12px #b3d8fd33;
+  background: #fff;
+  overflow-x: auto;
+}
+.finanzas-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Montserrat', 'Roboto', Arial, sans-serif;
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+}
+.finanzas-table th {
+  background: #512da8;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.05em;
+  padding: 10px 6px;
+  border-bottom: 3px solid #b3d8fd;
+  border-right: 1px solid #b3d8fd;
+  text-align: left;
+}
+.finanzas-table th:last-child {
+  border-right: none;
+}
+.finanzas-table td {
+  background: #f7faff;
+  color: #0d2346;
+  font-size: 1em;
+  padding: 8px 6px;
+  border-bottom: 1px solid #b3d8fd;
+  border-right: 1px solid #b3d8fd;
+}
+.finanzas-table td:last-child {
+  border-right: none;
+}
+.finanzas-table tr:hover td {
+  background: #512da8;
+  color: #fff;
+  font-weight: 700;
+  text-shadow: 0 1px 4px #2226, 0 0px 1px #512da8;
+}
+.finanzas-table .ingreso {
+  color: #2e7d32;
+  font-weight: 700;
+}
+.finanzas-table .egreso {
+  color: #c62828;
+  font-weight: 700;
+}
+.finanzas-desc-vacia {
+  color: #b0b8c1;
+  font-style: italic;
+}
+.finanzas-no-cee {
+  margin: 40px auto;
+  background: #fffbe7;
+  border: 2px solid #fbe88d;
+  border-radius: 12px;
+  padding: 32px 24px;
+  color: #0d2346;
+  font-size: 1.15rem;
+  font-weight: 600;
+  box-shadow: 0 2px 12px #b3d8fd33;
+  max-width: 500px;
+  text-align: center;
 }
 
 .finanzas-actions {

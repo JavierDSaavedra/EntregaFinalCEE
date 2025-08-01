@@ -12,7 +12,7 @@ const Eventos = () => {
   const rol = user?.rol || user?.role;
   const isCEE = ["presidente", "secretario", "tesorero"].includes(rol);
   // Solo CEE puede gestionar, los demás solo ven
-  // Si el usuario no es CEE, solo muestra eventos públicos (no filtrar, solo oculta botones)
+  // Si el usuario no es CEE, solo muestra eventos
 
   useEffect(() => {
     fetchEventos();
@@ -24,6 +24,8 @@ const Eventos = () => {
     const now = new Date();
     return new Date(now.getFullYear(), now.getMonth(), 1);
   });
+  // Popup visual para evento seleccionado
+  const [eventoSeleccionado, setEventoSeleccionado] = useState(null);
 
   // Generar días del mes
   const year = currentMonth.getFullYear();
@@ -53,99 +55,105 @@ const Eventos = () => {
 
 
   return (
-    <div className="eventos_page" style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'flex-start', gap: 40, width: '100%', maxWidth: '1800px', margin: '180px auto 0 auto' }}>
-      {/* Columna izquierda: botón y lista de eventos */}
-      <div style={{ minWidth: 340, maxWidth: 400, width: '100%', marginLeft: 0, marginRight: 0, paddingLeft: 0 }}>
+    <div className="eventos_page-simple" style={{ display: 'flex', flexDirection: 'row', gap: '32px', alignItems: 'flex-start', background: '#f4f8fd', minHeight: '100vh' }}>
+      <div className="eventos-col-izq-simple" style={{ flex: 1, minWidth: 340, maxWidth: 500 }}>
         {isCEE && (
-          <button className="eventos-addbtn" style={{ margin: '80px 0 38px 0', width: '100%' }} onClick={handleCreateEvento}>Añadir Evento</button>
+          <button className="eventos-addbtn-simple" onClick={handleCreateEvento}>Añadir Evento</button>
         )}
-        <div className="eventos-lista">
-          <h3 style={{marginTop: 0, marginBottom: 10}}>Todos los eventos</h3>
+        <div className="eventos-lista-tabla-box">
+          <h3 className="eventos-lista-titulo">Todos los eventos</h3>
           {Array.isArray(eventos) && eventos.length > 0 ? (
-            <ul style={{listStyle: 'none', padding: 0}}>
-              {eventos.map(evento => (
-                <li key={evento.id} style={{
-                  background: '#f7f7f7',
-                  marginBottom: 10,
-                  borderRadius: 6,
-                  boxShadow: '0 1px 2px rgba(0,0,0,0.04)',
-                  padding: '10px 16px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: 2
-                }}>
-                  <div style={{fontWeight: 'bold', color: '#4caf50', fontSize: '1.1em'}}>{evento.title}</div>
-                  <div style={{fontSize: '0.98em', color: '#222'}}>{evento.description}</div>
-                  <div style={{fontSize: '0.95em', color: '#555'}}>
-                    {evento.fecha_inicio} | {evento.hora_inicio} - {evento.hora_fin}
-                  </div>
-                  {isCEE ? (
-                    <div style={{marginTop: 4}}>
-                      <button className="edit" onClick={() => handleEditEvento(evento)} style={{marginRight: 6}}>Editar</button>
-                      <button className="delete" onClick={() => handleDeleteEvento(evento.id)}>Eliminar</button>
-                    </div>
-                  ) : null}
-                </li>
-              ))}
-            </ul>
+            <table className="eventos-lista-tabla">
+              <thead>
+                <tr>
+                  <th>Título</th>
+                  <th>Fecha</th>
+                  <th>Hora</th>
+                  {isCEE && <th>Acciones</th>}
+                </tr>
+              </thead>
+              <tbody>
+                {eventos.map(evento => (
+                  <tr key={evento.id}>
+                    <td>{evento.title}</td>
+                    <td>{evento.fecha_inicio}</td>
+                    <td>{evento.hora_inicio} - {evento.hora_fin}</td>
+                    {isCEE && (
+                      <td>
+                        <button className="evento-btn-simple edit" onClick={() => handleEditEvento(evento)}>Editar</button>
+                        <button className="evento-btn-simple delete" onClick={() => handleDeleteEvento(evento.id)}>Eliminar</button>
+                      </td>
+                    )}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           ) : (
-            <div style={{color: '#888', fontStyle: 'italic'}}>No hay eventos disponibles</div>
+            <div className="evento-lista-vacio">No hay eventos disponibles</div>
           )}
         </div>
       </div>
       {/* Columna derecha: calendario */}
-      <div style={{ flex: 1, minWidth: 600, maxWidth: 1200, marginTop: 60 }}>
+      <div className="eventos-col-der-calendario" style={{ flex: 2, minWidth: 600, maxWidth: 1200, marginTop: 0, background: 'linear-gradient(135deg, #d1c4e9 0%, #90caf9 100%)', borderRadius: 12, boxShadow: '0 2px 12px #b3d8fd33', padding: 24 }}>
         <div className="eventos-header" style={{ display: 'flex', alignItems: 'center', marginBottom: 10 }}>
-          <h2 style={{ margin: 0 }}>Calendario de eventos</h2>
+          <h2 style={{ margin: 0, color: '#0d2346' }}>Calendario de eventos</h2>
         </div>
         {/* Calendario visual */}
-        <div className="eventos-calendar" style={{ maxWidth: 1100, minWidth: 600, width: '100%' }}>
+        <div className="eventos-calendar" style={{ maxWidth: 1100, minWidth: 600, width: '100%', background: 'linear-gradient(135deg, #ede7f6 0%, #90caf9 100%)', borderRadius: 10, boxShadow: '0 2px 8px #1976d244', padding: '16px 6px 18px 6px' }}>
           <div className="calendar-controls">
             <button onClick={() => cambiarMes(-1)}>&lt;</button>
-            <span>{currentMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}</span>
+            <span style={{ color: '#512da8', fontWeight: 'bold', fontSize: '1.2em' }}>{currentMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}</span>
             <button onClick={() => cambiarMes(1)}>&gt;</button>
           </div>
           {/* Nombres de los días de la semana */}
-          <div className="calendar-weekdays" style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(7, 1fr)',
-            width: '100%',
-            marginBottom: 8,
-            fontWeight: 'bold',
-            color: '#388e3c',
-            fontSize: '1.15em',
-            textAlign: 'center',
-            letterSpacing: '1px',
-            background: '#e8f5e9',
-            borderRadius: 6,
-            padding: '8px 0 8px 0',
-            boxShadow: '0 1px 2px rgba(0,0,0,0.04)'
-          }}>
-            {["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"].map((d, i) => (
-              <div key={i}>{d}</div>
-            ))}
-          </div>
           <div className="calendar-grid">
+            {/* Fila de días de la semana */}
+            {[
+              "Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"
+            ].map((d, i) => (
+              <div key={"header-"+i} className="calendar-day calendar-header" style={{fontWeight:'bold', color:'#512da8', background:'#ede7f6', textAlign:'center', fontSize:'1.1em', borderBottom:'2px solid #90caf9'}}>{d}</div>
+            ))}
+            {/* Días vacíos antes del primer día del mes */}
             {[...Array(firstDayOfWeek).keys()].map(i => (
               <div key={"empty-"+i} className="calendar-day empty"></div>
             ))}
+            {/* Días del mes */}
             {daysArray.map(day => (
-              <div key={day} className="calendar-day">
-                <div className="calendar-day-number">{day}</div>
+              <div key={day} className="calendar-day" style={{ background: '#f4f8fd', border: '1px solid #90caf9' }}>
+                <div className="calendar-day-number" style={{ color: '#512da8' }}>{day}</div>
                 <div className="calendar-events">
                   {(eventosPorDia[day] || []).map(ev => (
-                    <div key={ev.id} className="calendar-event">
-                      <strong>{ev.title}</strong>
-                      <div style={{ fontSize: '0.8em' }}>{ev.hora_inicio} - {ev.hora_fin}</div>
+                    <div
+                      key={ev.id}
+                      className="calendar-event"
+                      onClick={() => setEventoSeleccionado(ev)}
+                      style={{ cursor: 'pointer', background: 'linear-gradient(90deg, #ede7f6 60%, #90caf9 100%)', borderLeft: '4px solid #512da8', color: '#0d2346' }}
+                    >
+                      <strong style={{ color: '#512da8' }}>{ev.title}</strong>
+                      <div style={{ fontSize: '0.8em', color: '#1976d2' }}>{ev.hora_inicio} - {ev.hora_fin}</div>
                       {isCEE ? <>
-                        <button className="edit" onClick={() => handleEditEvento(ev)} style={{marginRight: 4}}>Editar</button>
-                        <button className="delete" onClick={() => handleDeleteEvento(ev.id)}>Eliminar</button>
+                        <button className="edit" onClick={e => { e.stopPropagation(); handleEditEvento(ev); }} style={{marginRight: 4, background: '#512da8', color: '#fff' }}>Editar</button>
+                        <button className="delete" onClick={e => { e.stopPropagation(); handleDeleteEvento(ev.id); }} style={{ background: '#f44336', color: '#fff' }}>Eliminar</button>
                       </> : null}
                     </div>
                   ))}
                 </div>
               </div>
             ))}
+
+      {/* Popup visual para evento seleccionado */}
+      {eventoSeleccionado && (
+        <div className="evento-popup-overlay" onClick={() => setEventoSeleccionado(null)}>
+          <div className="evento-popup-card" onClick={e => e.stopPropagation()}>
+            <button className="evento-popup-close" onClick={() => setEventoSeleccionado(null)}>&times;</button>
+            <h3 style={{marginTop:0, marginBottom:8, color:'#512da8'}}>{eventoSeleccionado.title}</h3>
+            <div style={{marginBottom:8, color:'#222'}}>{eventoSeleccionado.description}</div>
+            <div style={{fontWeight:'bold', color:'#512da8'}}>
+              {eventoSeleccionado.fecha_inicio} | {eventoSeleccionado.hora_inicio} - {eventoSeleccionado.hora_fin}
+            </div>
+          </div>
+        </div>
+      )}
           </div>
         </div>
       </div>

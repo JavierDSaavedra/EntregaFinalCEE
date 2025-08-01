@@ -1,38 +1,266 @@
-.preguntas-votacion-page {
-  padding: 20px;
+/* Título de la página de preguntas */
+.preguntas-votacion-title {
+  color: #512da8;
+  margin-bottom: 18px;
+  font-size: 2em;
+  font-weight: 700;
+  text-align: center;
 }
 
+/* Acciones de preguntas (barra superior) */
+.preguntas-actions {
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+}
+
+.preguntas-volver-btn {
+  background: linear-gradient(90deg, #1976d2 60%, #512da8 100%);
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 22px;
+  cursor: pointer;
+  font-size: 1.05em;
+  transition: background 0.18s;
+}
+.preguntas-volver-btn:hover {
+  background: linear-gradient(90deg, #0d2346 60%, #512da8 100%);
+}
+
+.preguntas-crear-btn {
+  margin-left: 8px;
+  background: #7c4dff;
+  color: #fff;
+  border: 1.5px solid #b39ddb;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 7px 16px;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(124,77,255,0.07);
+  transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+}
+.preguntas-crear-btn:disabled {
+  background: #ede7f6;
+  color: #bdbdbd;
+  cursor: not-allowed;
+}
+.preguntas-crear-btn:hover:not(:disabled) {
+  background: #9575cd;
+  color: #ede7f6;
+  box-shadow: 0 2px 8px rgba(124,77,255,0.13);
+}
+
+.preguntas-resultados-btn {
+  margin-left: 8px;
+  background: #ede7f6;
+  color: #512da8;
+  border: 1px solid #b39ddb;
+  border-radius: 4px;
+  padding: 6px 14px;
+  font-weight: 500;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.preguntas-resultados-btn:disabled {
+  background: #f4f8fd;
+  color: #bdbdbd;
+  cursor: not-allowed;
+}
+.preguntas-resultados-btn:hover:not(:disabled) {
+  background: #b39ddb;
+  color: #fff;
+}
+
+.preguntas-resultados-table {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.preguntas-resultados-error {
+  color: #d32f2f;
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+.pregunta-opcion-btn {
+  margin-right: 8px;
+  background: #ede7f6;
+  color: #512da8;
+  border: 1.5px solid #b3d8fd;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-size: 1em;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+}
+.pregunta-opcion-btn:disabled {
+  background: #f4f8fd;
+  color: #bdbdbd;
+  cursor: not-allowed;
+}
+.pregunta-opcion-btn:hover:not(:disabled) {
+  background: #b3d8fd;
+  color: #0d2346;
+}
+
+.pregunta-respondido {
+  color: #2e7d32;
+  margin-left: 8px;
+  font-weight: 500;
+}
+.pregunta-respuesta-error {
+  color: #d32f2f;
+  margin-left: 8px;
+  font-weight: 500;
+}
+/* Wrapper para tabla de resultados */
+.resultados-table-visual-wrapper {
+  margin-top: 8px;
+  margin-bottom: 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.resultados-table-empty {
+  color: #888;
+  font-style: italic;
+  background: #f7f7f7;
+  border-radius: 6px;
+  padding: 8px 16px;
+  margin-top: 2px;
+  font-size: 1.04em;
+}
+.resultados-table-visual {
+  border-collapse: collapse;
+  min-width: 180px;
+  box-shadow: 0 1px 4px rgba(81,45,168,0.08);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 2px;
+}
+.resultados-table-visual th {
+  background: #ede7f6;
+  color: #512da8;
+  font-weight: 600;
+  font-size: 1em;
+  padding: 7px 12px;
+  border-bottom: 2px solid #b2dfdb;
+  text-align: center;
+}
+.resultados-table-visual td {
+  color: #222;
+  font-weight: 500;
+  font-size: 1.08em;
+  background: #fff;
+  padding: 8px 12px;
+  text-align: center;
+  border-bottom: 1px solid #b2dfdb;
+}
+.resultados-table-visual tr:last-child td {
+  border-bottom: none;
+}
+.opcion-si {
+  color: #2e7d32;
+  font-weight: 600;
+}
+.opcion-no {
+  color: #c62828;
+  font-weight: 600;
+}
+.opcion-otro {
+  color: #512da8;
+  font-weight: 600;
+}
+.votos-count {
+  font-weight: 700;
+  color: #333;
+}
+/* Tabla visual para mostrar resultados de preguntas */
+.resultados-table-visual {
+  border-collapse: collapse;
+  margin-top: 4px;
+  min-width: 180px;
+  box-shadow: 0 1px 4px rgba(81,45,168,0.08);
+}
+.resultados-table-visual th {
+  background: #ede7f6;
+  color: #512da8;
+  font-weight: 600;
+  font-size: 1em;
+  padding: 7px 12px;
+  border-bottom: 2px solid #b2dfdb;
+  text-align: center;
+}
+.resultados-table-visual td {
+  color: #222;
+  font-weight: 500;
+  font-size: 1.08em;
+  background: #fff;
+  padding: 8px 12px;
+  text-align: center;
+  border-bottom: 1px solid #b2dfdb;
+}
+.resultados-table-visual tr:last-child td {
+  border-bottom: none;
+}
+/* Fondo institucional azul, centrado y padding */
+.preguntas-votacion-page {
+  background: #f4f8fd;
+  min-height: 100vh;
+  width: 100%;
+  padding: 32px 0 32px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+/* Tabla institucional moderna, igual a eventos/votaciones */
 .preguntas-table {
   width: 100%;
+  max-width: 900px;
   border-collapse: collapse;
-  background: #ede7f6;
-  border: 1.5px solid #b39ddb;
-  font-size: 1.08rem;
+  font-family: 'Montserrat', 'Roboto', Arial, sans-serif;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px #b3d8fd33;
+  overflow: hidden;
   margin-bottom: 30px;
 }
 .preguntas-table th {
-  background: #7c4dff;
+  background: #512da8;
   color: #fff;
-  font-weight: 600;
-  padding: 10px 8px;
-  border-bottom: 1.5px solid #b39ddb;
+  font-weight: 700;
+  font-size: 1.05em;
+  padding: 10px 6px;
+  border-bottom: 3px solid #b3d8fd;
+  border-right: 1px solid #b3d8fd;
   text-align: center;
-  font-size: 1.08rem;
+}
+.preguntas-table th:last-child {
+  border-right: none;
 }
 .preguntas-table td {
-  padding: 10px 8px;
-  border-bottom: 1px solid #b39ddb;
+  background: #f7faff;
+  color: #0d2346;
+  font-size: 1em;
+  padding: 8px 6px;
+  border-bottom: 1px solid #b3d8fd;
+  border-right: 1px solid #b3d8fd;
   text-align: center;
-  font-size: 1.05rem;
-  color: #512da8;
-  background: #fff;
 }
-.preguntas-table tr:last-child td {
-  border-bottom: none;
+.preguntas-table td:last-child {
+  border-right: none;
 }
 .preguntas-table tr:hover td {
-  background: #ede7f6;
-  color: #7c4dff;
+  background: #512da8;
+  color: #fff;
+  font-weight: 700;
+  text-shadow: 0 1px 4px #2226, 0 0px 1px #512da8;
 }
 .preguntas-table .si {
   color: #2e7d32;

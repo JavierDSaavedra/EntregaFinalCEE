@@ -1,13 +1,16 @@
 import "@styles/profile.css";
 import profilePic from "@assets/profilePic.jpg";
+import escudo from "@assets/escudo-color-gradiente.png";
+import bobEsponja from "@assets/bob-esponja.png";
 
 const ProfileCard = ({ user }) => {
+  const isTesorero = user.role && user.role.toLowerCase() === "tesorero";
   return (
     <div className="profile-card">
       <h1 className="profile-header">Perfil de {user.username}</h1>
       <div className="profile-content">
         <div className="profile-image">
-          <img src={profilePic} alt={`${user.username}'s profile`} />
+          <img src={isTesorero ? bobEsponja : profilePic} alt={`${user.username}'s profile`} />
         </div>
         <div className="profile-info">
           <p>
@@ -24,6 +27,7 @@ const ProfileCard = ({ user }) => {
           </p>
         </div>
       </div>
+      <img src={escudo} alt="Escudo UBB" className="profile-escudo" />
     </div>
   );
 };

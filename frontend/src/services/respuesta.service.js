@@ -7,3 +7,7 @@ export async function responderPreguntaService({ preguntaId, respuesta, votacion
 export async function getRespuestasByUserService() {
   return axios.get(`/respuestas/mis-respuestas`);
 }
+
+export async function getResultadosPregunta(preguntaId) {
+  return axios.get(`/respuesta/resultados/${preguntaId}`);
+}

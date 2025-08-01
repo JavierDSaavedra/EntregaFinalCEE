@@ -27,7 +27,6 @@ export const useDeleteVotacion = (fetchVotaciones) => {
                 
                 console.log('Votación eliminada exitosamente:', response);
                 
-                // Mostrar mensaje de éxito
                 await swal.fire({
                     title: 'Éxito',
                     text: 'Votación eliminada correctamente',

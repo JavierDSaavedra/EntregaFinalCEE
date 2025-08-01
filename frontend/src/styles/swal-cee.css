@@ -1,0 +1,34 @@
+/* SweetAlert2 institucional simple */
+.swal2-title-cee {
+  color: #0d2346 !important;
+  font-family: 'Montserrat', 'Roboto', Arial, sans-serif;
+  font-size: 1.25rem !important;
+  font-weight: 700;
+}
+.swal2-confirm-cee {
+  background: #1976d2 !important;
+  color: #fff !important;
+  border-radius: 6px !important;
+  font-family: 'Montserrat', 'Roboto', Arial, sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 8px 24px !important;
+  border: none !important;
+  box-shadow: 0 2px 8px #b3d8fd33;
+  margin: 0 8px;
+}
+.swal2-cancel-cee {
+  background: #fbe88d !important;
+  color: #0d2346 !important;
+  border-radius: 6px !important;
+  font-family: 'Montserrat', 'Roboto', Arial, sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 8px 24px !important;
+  border: none !important;
+  margin: 0 8px;
+}
+.swal2-popup {
+  border-radius: 14px !important;
+  box-shadow: 0 4px 32px #b3d8fd33 !important;
+}

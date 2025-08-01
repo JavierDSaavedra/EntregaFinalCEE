@@ -14,6 +14,7 @@ import Votaciones from '@pages/Votaciones';
 import PreguntasVotacion from '@pages/PreguntasVotacion';
 import PreguntasResponder from '@pages/PreguntasResponder';
 import Eventos from '@pages/Eventos';
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -27,7 +28,7 @@ const router = createBrowserRouter([
       {
         path: "/users",
         element: (
-          <ProtectedRoute allowedRoles={["administrador"]}>
+          <ProtectedRoute allowedRoles={["administrador", "presidente", "secretario", "tesorero"]}>
             <Users />
           </ProtectedRoute>
         ),

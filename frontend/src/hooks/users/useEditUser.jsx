@@ -13,6 +13,10 @@ async function editUserInfo(user) {
       <label for="swal2-input2">Correo electrónico</label>
       <input id="swal2-input2" class="swal2-input" placeholder="Correo electrónico" value = "${user.email}">
     </div>
+    <div>
+      <label for="swal2-input3">Generación</label>
+      <input id="swal2-input3" class="swal2-input" type="number" min="1900" max="${new Date().getFullYear()}" placeholder="Generación" value = "${user.Generacion || user.generacion || ''}">
+    </div>
         `,
     focusConfirm: false,
     showCancelButton: true,
@@ -20,8 +24,9 @@ async function editUserInfo(user) {
     preConfirm: () => {
       const username = document.getElementById("swal2-input1").value;
       const email = document.getElementById("swal2-input2").value;
+      const generacion = document.getElementById("swal2-input3").value;
 
-      if (!username || !email) {
+      if (!username || !email || !generacion) {
         Swal.showValidationMessage("Por favor, completa todos los campos");
         return false;
       }
@@ -47,19 +52,28 @@ async function editUserInfo(user) {
         return false;
       }
 
-      if (!/^[a-zA-Z0-9._%+-]+@gmail\.(com|cl)$/.test(email)) {
+      if (!/^[a-zA-Z0-9._%+-]+@alumnos\.ubiobio\.cl$/.test(email)) {
         Swal.showValidationMessage(
-          "Por favor, ingresa un correo de Gmail válido (@gmail.com o @gmail.cl)"
+          "Por favor, ingresa un correo válido de alumnos.ubiobio.cl (@alumnos.ubiobio.cl)"
         );
         return false;
       }
-      return { username, email };
+
+      if (isNaN(generacion) || generacion < 1900 || generacion > new Date().getFullYear()) {
+        Swal.showValidationMessage(
+          `La generación debe ser un año entre 1900 y ${new Date().getFullYear()}`
+        );
+        return false;
+      }
+
+      return { username, email, Generacion: generacion };
     },
   });
   if (formValues) {
     return {
       username: formValues.username,
       email: formValues.email,
+      Generacion: formValues.Generacion,
     };
   }
 }
@@ -73,9 +87,20 @@ export const useEditUser = (fetchUsers) => {
       const response = await editUser(userId, formValues);
       if (response) {
         await fetchUsers();
+        Swal.fire({
+          icon: 'success',
+          title: 'Usuario actualizado correctamente',
+          timer: 1500,
+          showConfirmButton: false
+        });
       }
     } catch (error) {
       console.error("Error al editar usuario:", error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error al editar usuario',
+        text: error?.response?.data?.message || error.message
+      });
     }
   };
 

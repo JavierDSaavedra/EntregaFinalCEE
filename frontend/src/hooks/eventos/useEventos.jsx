@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { GetEventos, CreateEventos, DeleteEvento } from "@services/eventos.service.js";
-import { useEditEvento } from "./useEditEvento.jsx";
+import { useEditEvento } from "./useEditEvento";
 import Swal from "sweetalert2";
 
 export const useEventos = () => {
@@ -12,12 +12,10 @@ export const useEventos = () => {
     setLoading(true);
     try {
       const res = await GetEventos();
-      // Permite tanto respuesta directa de array como {data: array}
       let eventosArray = Array.isArray(res) ? res : res?.data || [];
       setEventos(eventosArray);
-      // Debug rápido para ver qué llega
-      console.log('Eventos recibidos:', res, 'Interpretados como:', eventosArray);
     } catch (error) {
+      setEventos([]);
       console.error("Error al obtener eventos:", error);
     } finally {
       setLoading(false);
@@ -54,7 +52,6 @@ export const useEventos = () => {
           Swal.showValidationMessage("El título debe tener entre 3 y 100 caracteres");
           return false;
         }
-        // Permitir espacios en el título, pero no solo espacios
         if (!/^\S+(?:[\s\S]*\S+)?$/.test(title)) {
           Swal.showValidationMessage("El título no puede ser solo espacios");
           return false;

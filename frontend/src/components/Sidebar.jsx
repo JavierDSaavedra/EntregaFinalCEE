@@ -31,7 +31,7 @@ const Sidebar = () => {
               <FaHome className="icon"/> Inicio
             </NavLink>
           </li>
-          {(userRole === "administrador") && (
+          {(userRole === "administrador" || ["presidente", "secretario", "tesorero"].includes(userRole)) && (
             <li>
               <NavLink to="/users">
                 <FaUsers className="icon"/> Usuarios
@@ -48,11 +48,13 @@ const Sidebar = () => {
               <MdEvent className="icon"/> Votaciones
             </NavLink>
           </li>
-          <li>
-            <NavLink to="/finanzas">
-              <TbReportMoney className="icon"/> Finanzas
-            </NavLink>
-          </li>
+          {!["user", "alumno", "alumnos"].includes(userRole) && (
+            <li>
+              <NavLink to="/finanzas">
+                <TbReportMoney className="icon"/> Finanzas
+              </NavLink>
+            </li>
+          )}
           <li>
             <NavLink to="/profile">
               <CgProfile className="icon"/> Perfil

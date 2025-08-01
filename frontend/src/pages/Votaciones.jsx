@@ -1,12 +1,10 @@
 import '@styles/Votaciones.css';
 import useGetVotaciones from '@hooks/votaciones/useGetVotaciones';
-import { useEffect, useState } from 'react';  
+import { useEffect } from 'react';
 import useDeleteVotacion from '../hooks/votaciones/useDeleteVotacion';
 import useEditVotacion from '../hooks/votaciones/useEditVotacion';
 import useCreateVotacion from '../hooks/votaciones/useCreateVotacion';
 import { useNavigate } from 'react-router-dom';
-
-import useCreatePregunta from '@hooks/preguntas/useCreatePregunta';
 import { useAuth } from '@context/AuthContext';
 
 const Votaciones = () => {
@@ -15,12 +13,10 @@ const Votaciones = () => {
     const { handleDeleteVotacion } = useDeleteVotacion(fetchVotaciones);
     const { handleEditVotacion } = useEditVotacion(fetchVotaciones);
     const { handleCreateVotacion, isCreating } = useCreateVotacion(fetchVotaciones);
-    const { isCreating: isCreatingPregunta, handleCreatePregunta } = useCreatePregunta();
     const { user } = useAuth();
 
     useEffect(() => {
         fetchVotaciones();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
 
@@ -28,24 +24,6 @@ const Votaciones = () => {
         handleCreateVotacion();
     };
 
-
-
-    // Ya no se necesita handleCreatePreguntaModal, se llama directo en el botón
-
-    const handleEditPreguntaModal = (votacionId) => {
-
-        console.log('Editar pregunta para votacion:', votacionId);
-        alert('estamo trabajando');
-    };
-
-    const handleDeletePreguntaModal = (votacionId) => {
-
-        console.log('Eliminar pregunta para votacion:', votacionId);
-        const confirmar = window.confirm('eliminar?');
-        if (confirmar) {
-            alert('estamo trabajando');
-        }
-    };
 
     const handleViewPreguntas = (votacionId) => {
         navigate(`/preguntas-votacion/${votacionId}`);

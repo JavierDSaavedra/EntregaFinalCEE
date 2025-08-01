@@ -1,0 +1,153 @@
+/* Mensaje de éxito para registro */
+.cee-success {
+  color: #388e3c;
+  border: 1.5px solid #43a047;
+  background: #e8f5e9;
+  padding: 10px 0;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  text-align: center;
+  font-weight: 600;
+}
+/* CEE Login/Register Institutional Style */
+
+.cee-bg {
+  min-height: 100vh;
+  width: 100vw;
+  background: linear-gradient(135deg, #e3f0fc 0%, #b3d8fd 60%, #fbe88d 100%);
+  /* #e3f0fc azul muy claro, #b3d8fd azul claro, #fbe88d amarillo suave */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  /* Detalles amarillos suaves */
+  box-shadow: 0 0 0 8px #fbe88d22 inset;
+}
+
+.cee-login-container {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 32px rgba(25, 118, 210, 0.18);
+  padding: 40px 32px 32px 32px;
+  min-width: 340px;
+  max-width: 370px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  /* Centrado perfecto dentro del flex padre */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cee-logo {
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+  margin-bottom: 18px;
+  margin-top: -40px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.10);
+  border: 3px solid #fbc02d;
+}
+
+.cee-title {
+  font-family: 'Montserrat', 'Roboto', Arial, sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #0d2346;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.cee-subtitle {
+  font-size: 1.1rem;
+  color: #1976d2;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.cee-form-group label {
+  color: #0d2346;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.cee-form-group input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  border: 1.5px solid #1976d2;
+  border-radius: 6px;
+  font-size: 1rem;
+  margin-bottom: 16px;
+  transition: border-color 0.2s;
+  display: block;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.cee-form-group input:focus {
+  border-color: #0d2346;
+  outline: none;
+}
+
+.cee-btn {
+  width: 100%;
+  padding: 12px 0;
+  background: linear-gradient(90deg, #1976d2 60%, #fbc02d 100%);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 6px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
+}
+.cee-btn:hover {
+  background: linear-gradient(90deg, #0d2346 60%, #fbc02d 100%);
+}
+
+
+.cee-error {
+  color: #c62828;
+  background: #fff3e0;
+  border: 1px solid #fbc02d;
+  border-radius: 4px;
+  padding: 8px 12px;
+  margin-bottom: 10px;
+  font-size: 0.98em;
+  text-align: center;
+}
+
+.cee-footer {
+  margin-top: 18px;
+  font-size: 0.95em;
+  color: #888;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .cee-login-container {
+    min-width: 90vw;
+    max-width: 98vw;
+    padding: 24px 6vw 18px 6vw;
+  }
+  .cee-logo {
+    width: 70px;
+    height: 70px;
+  }
+  .cee-title {
+    font-size: 1.3rem;
+  }
+}

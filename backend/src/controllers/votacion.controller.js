@@ -5,9 +5,21 @@ import Votacion from "../entity/votacion.entity.js";
 export async function getVotaciones(req, res) {
     try {
         const votacionRepository = AppDataSource.getRepository(Votacion);
-        const votaciones = await votacionRepository.find({
+        let votaciones = await votacionRepository.find({
             relations: ["preguntas"]
         });
+
+        // Actualizar estado a 'finalizada' si corresponde
+        const now = new Date();
+        const toUpdate = votaciones.filter(v => v.votacionEstado !== 'finalizada' && new Date(v.votacionFechaFin) < now);
+        if (toUpdate.length > 0) {
+            for (const v of toUpdate) {
+                v.votacionEstado = 'finalizada';
+                await votacionRepository.save(v);
+            }
+            // Volver a consultar para devolver datos actualizados
+            votaciones = await votacionRepository.find({ relations: ["preguntas"] });
+        }
 
         res.status(200).json({
             success: true,
@@ -153,34 +165,3 @@ export async function deleteVotacion(req, res) {
     }
 }
 
-export async function getVotacionesByEstado(req, res) {
-    try {
-        const { estado } = req.params;
-
-        const votacionRepository = AppDataSource.getRepository(Votacion);
-        const votaciones = await votacionRepository.find({
-            where: { votacionEstado: estado },
-            relations: ["preguntas"]
-        });
-
-        if (votaciones.length === 0) {
-            return res.status(404).json({
-                success: false,
-                message: "No se encontraron votaciones con el estado especificado"
-            });
-        }
-
-        res.status(200).json({
-            success: true,
-            message: "Votaciones obtenidas correctamente",
-            data: votaciones
-        });
-    } catch (error) {
-        console.error("Error al obtener votaciones por estado:", error);
-        res.status(500).json({ 
-            success: false,
-            message: "Error al obtener votaciones por estado",
-            error: error.message 
-        });
-    }
-}

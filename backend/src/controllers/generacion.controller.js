@@ -5,40 +5,27 @@ import { Like } from "typeorm";
 export async function GetAlumnos(req, res) {
   try {
     const userRepository = AppDataSource.getRepository(UserEntity);
-    const alumnos = await userRepository.find({ 
-      where: { 
-        email: Like('%@alumnos.ubiobio.cl') 
-      } 
-    });
+
+    const alumnos = await userRepository.find({ where: { email: Like('%@alumnos.ubiobio.cl') } });
 
     if (alumnos.length === 0) {
-      return res.status(404).json({ 
-        message: "No se encontraron alumnos con correo institucional."
-      });
+      return res.status(404).json({ message: "No se encontraron alumnos con correo institucional." });
     }
 
     const alumnosSinPassword = alumnos.map(({ password, ...rest }) => rest);
 
-    res.status(200).json({ 
-      message: "Alumnos encontrados:", 
-      data: alumnosSinPassword,
-      total: alumnosSinPassword.length
-    });
+    res.status(200).json({ message: "Alumnos encontrados:", data: alumnosSinPassword, total: alumnosSinPassword.length });
   } catch (error) {
-    res.status(500).json({ 
-      message: "Error interno del servidor",
-      error: error.message
-    });
+    res.status(500).json({ message: "Error interno del servidor", error: error.message });
   }
 }
 
 export async function GetAlumnosByGeneracion(req, res) {
   try {
     const userRepository = AppDataSource.getRepository(UserEntity);
+
     const { generacion } = req.params;
-    const users = await userRepository.find({ 
-      where: { Generacion: generacion }
-    });
+    const users = await userRepository.find({ where: { Generacion: generacion } });
 
     if (!users || users.length === 0) {
       return res.status(404).json({ message: "No se encontraron alumnos para esa generación." });
@@ -48,9 +35,6 @@ export async function GetAlumnosByGeneracion(req, res) {
 
     res.status(200).json({ message: "Alumnos encontrados:", data: usersSinPassword });
   } catch (error) {
-    res.status(500).json({ 
-      message: "Error interno del servidor.",
-      error: error.message
-    });
+    res.status(500).json({ message: "Error interno del servidor.", error: error.message });
   }
 }

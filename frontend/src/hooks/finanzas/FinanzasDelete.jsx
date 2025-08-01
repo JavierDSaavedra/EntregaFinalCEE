@@ -35,7 +35,6 @@ async function confirmError() {
 export const useDeleteFinanza = (fetchFinanzas) => {
   const handleDeleteFinanza = async (finanzas) => {
     try {
-      // SweetAlert para elegir registro por ID o Nombre_Transaccion
       const { value: tipo } = await Swal.fire({
         title: '¿Buscar registro por ID o Nombre de Transacción?',
         input: 'radio',

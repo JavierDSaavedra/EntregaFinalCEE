@@ -5,7 +5,7 @@ import useDeletePregunta from '@hooks/preguntas/useDeletePregunta';
 import useCreatePregunta from '@hooks/preguntas/useCreatePregunta';
 
 import useResponderPregunta from '@hooks/preguntas/useResponderPregunta';
-import { getResultadosPregunta } from '@services/resultados.service.js';
+import { getResultadosPregunta } from '@services/respuesta.service.js';
 import '@styles/preguntasVotacion.css';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '@context/AuthContext';
@@ -21,7 +21,6 @@ const PreguntasVotacion = () => {
   const [resultados, setResultados] = useState({});
   const [loadingResultados, setLoadingResultados] = useState({});
 
-  // Fetch results for a specific pregunta, with error handling
   const fetchResultados = async (preguntaId) => {
     setLoadingResultados((prev) => ({ ...prev, [preguntaId]: true }));
     try {
@@ -52,18 +51,17 @@ const PreguntasVotacion = () => {
 
   useEffect(() => {
     fetchPreguntas();
-    // eslint-disable-next-line
   }, [votacionId]);
 
   return (
     <div className="preguntas-votacion-page">
-      <h2 style={{ color: '#512da8', marginBottom: 18 }}>Preguntas de la Votación</h2>
-      <div className="preguntas-actions" style={{ marginBottom: 18, display: 'flex', alignItems: 'center' }}>
-        <button onClick={() => navigate('/votaciones')} style={{marginBottom: 0}}>
+      <h2 className="preguntas-votacion-title">Preguntas de la Votación</h2>
+      <div className="preguntas-actions">
+        <button className="preguntas-volver-btn" onClick={() => navigate('/votaciones')}>
           ← Volver a Votaciones
         </button>
         {user && ["presidente", "secretario", "tesorero"].includes(user.role) && (
-          <button onClick={() => handleCreatePregunta(Number(votacionId))} disabled={isCreating} style={{marginLeft: 8}}>
+          <button className="preguntas-crear-btn" onClick={() => handleCreatePregunta(Number(votacionId))} disabled={isCreating}>
             {isCreating ? 'Creando...' : '+ Añadir Pregunta'}
           </button>
         )}
@@ -94,27 +92,32 @@ const PreguntasVotacion = () => {
                   {user && ["presidente", "secretario", "tesorero"].includes(user.role) && (
                     <>
                       <button
-                        style={{ marginLeft: 8 }}
+                        className="preguntas-resultados-btn"
                         onClick={() => fetchResultados(pregunta.preguntaId)}
                         disabled={loadingResultados[pregunta.preguntaId]}
                       >
                         {loadingResultados[pregunta.preguntaId] ? 'Cargando...' : 'Ver resultados'}
                       </button>
-                      {resultados[pregunta.preguntaId] && resultados[pregunta.preguntaId].success && resultados[pregunta.preguntaId].data !== undefined && resultados[pregunta.preguntaId].data !== null && (
-                        <div style={{ marginTop: 4, fontSize: 13 }}>
-                          {Object.keys(resultados[pregunta.preguntaId].data).length === 0 ? (
-                            <div>No hay votos registrados aún.</div>
-                          ) : (
-                            Object.entries(resultados[pregunta.preguntaId].data).map(([op, count]) => (
-                              <div key={op} style={{ color: op.toLowerCase() === 'sí' ? '#2e7d32' : op.toLowerCase() === 'no' ? '#c62828' : '#512da8' }}>
-                                {op}: <b>{typeof count === 'object' ? JSON.stringify(count) : count}</b>
-                              </div>
-                            ))
-                          )}
-                        </div>
+                      {resultados[pregunta.preguntaId] && resultados[pregunta.preguntaId].success && resultados[pregunta.preguntaId].data && (
+                        <table className="respuesta-table-visual preguntas-resultados-table">
+                          <thead>
+                            <tr>
+                              <th>Opción</th>
+                              <th>Votos</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {Object.entries(resultados[pregunta.preguntaId].data).map(([opcion, votos]) => (
+                              <tr key={opcion}>
+                                <td>{opcion}</td>
+                                <td>{typeof votos === 'object' ? JSON.stringify(votos) : votos}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
                       )}
                       {resultados[pregunta.preguntaId] && resultados[pregunta.preguntaId].success === false && resultados[pregunta.preguntaId].error && (
-                        <div style={{ color: 'red', fontSize: 13 }}>{resultados[pregunta.preguntaId].error}</div>
+                        <div className="preguntas-resultados-error">{resultados[pregunta.preguntaId].error}</div>
                       )}
                     </>
                   )}
@@ -134,8 +137,8 @@ const PreguntasVotacion = () => {
                       {(pregunta.opciones || []).map((opcion) => (
                         <button
                           key={opcion}
+                          className="pregunta-opcion-btn"
                           disabled={isResponding || respuestas[pregunta.preguntaId]}
-                          style={{ marginRight: 8 }}
                           onClick={async () => {
                             const ok = await responderPregunta(pregunta.preguntaId, opcion);
                             if (ok) setRespuestas((r) => ({ ...r, [pregunta.preguntaId]: opcion }));
@@ -145,11 +148,9 @@ const PreguntasVotacion = () => {
                         </button>
                       ))}
                       {respuestas[pregunta.preguntaId] && (
-                        <span style={{ color: '#2e7d32', marginLeft: 8, fontWeight: 500 }}>
-                          Respondido: {respuestas[pregunta.preguntaId]}
-                        </span>
+                        <span className="pregunta-respondido">Respondido: {respuestas[pregunta.preguntaId]}</span>
                       )}
-                      {respuestaError && <span style={{ color: 'red' }}>{respuestaError}</span>}
+                      {respuestaError && <span className="pregunta-respuesta-error">{respuestaError}</span>}
                     </>
                   )}
                 </td>

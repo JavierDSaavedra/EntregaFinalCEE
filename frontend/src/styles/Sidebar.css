@@ -1,20 +1,29 @@
 .sidebar {
   display: flex;
   flex-direction: column;
-  width: 25vh;
-  height: 100%;
-  background-color: #333333;
-  box-shadow: 5px 2px 5px rgba(0, 0, 0, 0.2);
-  color: #fff0dd;
+  width: 25vh !important;
+  min-width: 180px !important;
+  max-width: 300px;
+  height: 100vh !important;
+  background: #0d2346 !important;
+  box-shadow: 5px 2px 5px rgba(25, 118, 210, 0.10);
+  color: #fff;
   padding: 20px;
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 9999 !important;
+  border-right: 4px solid #fbe88d;
+  font-family: 'Montserrat', 'Roboto', Arial, sans-serif;
 }
 
 .sidebar h2 {
   font-size: 1.8rem;
   margin-bottom: 1rem;
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-align: center;
 }
 
 .sidebar nav {
@@ -35,44 +44,49 @@
 }
 
 .sidebar nav ul li.separator {
-  border-bottom: 1px solid rgba(255,255,255,0.2);
-  margin: 1rem 0;
+  border-bottom: 1.5px solid #fbe88d;
+  margin: 1.2rem 0;
 }
 
 .sidebar nav ul li a {
-  color: #fff0dd;
+  color: #fff;
   text-decoration: none;
-  font-weight: bold;
-  font-size: 1.4rem;
-  padding: 10px;
-  vertical-align: middle;
-  gap: 10px;
-  transition: background 0.3s, color 0.3s;
+  font-weight: 600;
+  font-size: 1.2rem;
+  padding: 10px 16px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
 }
 
 .sidebar nav ul li a .icon {
-  font-size: 1.2rem;
-  color: #fff0dd;
+  font-size: 1.25rem;
+  color: #fff;
+  margin-right: 8px;
 }
 
 .sidebar nav ul li a.active {
-  color: #fff0dd;
-  background: rgba(0,0,0,0.1);
-  border-right: 4px solid #333;
+  color: #fff;
+  background: #1976d2;
+  box-shadow: 0 2px 8px #b3d8fd33;
+  border-right: 4px solid #fbe88d;
+  font-weight: 700;
 }
 
 .sidebar nav ul li a.active .icon {
-  color: #fff0dd;
+  color: #fff;
 }
 
 .sidebar nav ul li a:hover {
-  background: rgba(0,0,0,0.1);
-  transition: background 0.2s;
-  color: #fff0dd;
+  background: #fbe88d;
+  color: #0d2346;
+  box-shadow: 0 2px 8px #fbe88d55;
 }
 
 .sidebar nav ul li a:hover .icon {
-  color: #fff0dd;
+  color: #0d2346;
 }
 
 li {
@@ -81,32 +95,39 @@ li {
 }
 
 .sidebar .logout {
-  background-color: #f44336;
-  border: 2px transparent #333333;
-  border-radius: 20px;
-  color: white;
-  padding: 2vh 0 2vh 0;
+  background: linear-gradient(90deg, #f44336 70%, #fbe88d 100%);
+  border: none;
+  border-radius: 16px;
+  color: #fff;
+  padding: 1.2vh 0 1.2vh 0;
   margin-top: auto;
   text-align: center;
+  box-shadow: 0 2px 8px #fbe88d33;
+  transition: background 0.2s, box-shadow 0.2s;
 }
 
 .sidebar .logout .icon {
-  color: #fff0dd;
+  color: #fff;
 }
 
 .sidebar .logout:hover {
-  background-color: #d32f2f;
-  transition: background-color 0.3s ease;
+  background: linear-gradient(90deg, #d32f2f 70%, #fbe88d 100%);
+  box-shadow: 0 2px 12px #fbe88d55;
 }
 
 .sidebar .logout > a:hover {
-  background-color: #d32f2f;
-  transition: background-color 0.3s ease;
+  background: linear-gradient(90deg, #d32f2f 70%, #fbe88d 100%);
+  color: #fff;
+  box-shadow: 0 2px 12px #fbe88d55;
 }
 
 .sidebar .logout a {
-  color: white;
+  color: #fff;
   text-decoration: none;
-  font-weight: bold;
-  font-size: 1.3rem;
+  font-weight: 700;
+  font-size: 1.15rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }

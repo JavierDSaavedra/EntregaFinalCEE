@@ -1,4 +1,3 @@
-
 import axios from "@services/root.service.js";
 
 
@@ -8,7 +7,6 @@ export async function GetEventos() {
     return response.data;
   } catch (error) {
     console.error("Error al obtener los eventos:", error);
-    // Devuelve array vacío para evitar undefined en frontend
     return { data: [] };
   }
 }
@@ -22,8 +20,6 @@ export async function DeleteEvento(eventoId) {
     console.error("Error al eliminar evento:", error);
   }
 }
-
-
 
 
 export async function EditEventos(eventoId, eventoData) {

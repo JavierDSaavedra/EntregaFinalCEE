@@ -25,7 +25,6 @@ async function RegistrosCreate() {
     cancelButtonText: "Cancelar",
     preConfirm: () => {
       const nombreTransaccion = document.getElementById("swal2-input1").value;
-      const descripcion = document.getElementById("swal2-input2").value;
       const monto = document.getElementById("swal2-input3").value;
       const tipoTransaccion = document.getElementById("swal2-input4").value;
       if (!nombreTransaccion || !monto || !tipoTransaccion) {

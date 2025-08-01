@@ -5,9 +5,9 @@ export const preguntaValidations = Joi.object({
         .min(3)
         .max(100)
         .required()
-        .pattern(/^[a-zA-Z0-9\s]+$/)
+        .pattern(/^[a-zA-Z0-9\s¿?¡!.,:;_\-()"'áéíóúÁÉÍÓÚüÜ]+$/)
         .messages({
-            "string.pattern.base": "El título solo puede contener letras, números y espacios",
+            "string.pattern.base": "El título solo puede contener letras, números, espacios y signos de puntuación básicos",
             "string.empty": "El título no puede estar vacío",
             "string.min": "El título debe tener al menos 3 caracteres",
             "string.max": "El título no puede exceder los 100 caracteres",
@@ -37,9 +37,9 @@ export const preguntaUpdateValidations = Joi.object({
         .min(3)
         .max(100)
         .required()
-        .pattern(/^[a-zA-Z0-9\s]+$/)
+        .pattern(/^[a-zA-Z0-9\s¿?¡!.,:;_\-()"'áéíóúÁÉÍÓÚüÜ]+$/)
         .messages({
-            "string.pattern.base": "El título solo puede contener letras, números y espacios",
+            "string.pattern.base": "El título solo puede contener letras, números, espacios y signos de puntuación básicos",
             "string.empty": "El título no puede estar vacío",
             "string.min": "El título debe tener al menos 3 caracteres",
             "string.max": "El título no puede exceder los 100 caracteres",

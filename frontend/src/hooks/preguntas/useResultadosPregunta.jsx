@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { getResultadosPregunta } from '@services/resultados.service.js';
+import { getResultadosPregunta } from '@services/respuesta.service.js';
 
 export default function useResultadosPregunta() {
   const [resultados, setResultados] = useState(null);

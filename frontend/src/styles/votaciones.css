@@ -1,44 +1,110 @@
+/* --- MODERNIZACIÓN VISUAL INSTITUCIONAL CEE --- */
+.votaciones-page {
+  background: #f4f8fd;
+  min-height: 100vh;
+  width: 100%;
+  padding: 32px 0 32px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.header-container {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.add-button {
+  background: linear-gradient(90deg, #512da8 60%, #1976d2 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  padding: 10px 22px;
+  box-shadow: 0 2px 8px #b3d8fd33;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+}
+.add-button:hover {
+  background: linear-gradient(90deg, #311b92 60%, #1976d2 100%);
+}
+
 .votaciones-table {
   width: 100%;
+  max-width: 1200px;
   border-collapse: collapse;
-  margin-top: 20px;
+  font-family: 'Montserrat', 'Roboto', Arial, sans-serif;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 12px #b3d8fd33;
+  overflow: hidden;
 }
-
-.votaciones-table th,
-.votaciones-table td {
-    padding: 12px;
-    border: 1px solid #ccc;
-    text-align: left;
-}
-
 .votaciones-table th {
-    background-color: #333;
-    color: #fff;
-    border-bottom: 4px solid #444;
-    border-right: 1px solid #444;
-    font-size: 23px;
-    font-weight: 100;
-    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-    vertical-align: middle;
-
+  background: #512da8;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.05em;
+  padding: 10px 6px;
+  border-bottom: 3px solid #b3d8fd;
+  border-right: 1px solid #b3d8fd;
+  text-align: left;
 }
-
-.votaciones-table th:first-child {
-    border-top-left-radius: 3px;
-}
-
 .votaciones-table th:last-child {
-    border-top-right-radius: 3px;
-    border-right: none;
+  border-right: none;
+}
+.votaciones-table td {
+  background: #f7faff;
+  color: #0d2346;
+  font-size: 1em;
+  padding: 8px 6px;
+  border-bottom: 1px solid #b3d8fd;
+  border-right: 1px solid #b3d8fd;
+}
+.votaciones-table td:last-child {
+  border-right: none;
+}
+/* Hover: fondo morado suave, texto blanco y remarcado */
+.votaciones-table tr:hover td {
+  background: #512da8;
+  color: #fff;
+  font-weight: 700;
+  text-shadow: 0 1px 4px #2226, 0 0px 1px #512da8;
+}
+}
+.votaciones-table button {
+  padding: 6px 12px;
+  margin: 5px;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-family: 'Montserrat', 'Roboto', Arial, sans-serif;
+}
+.votaciones-table button.edit {
+  background: linear-gradient(90deg, #1976d2 60%, #512da8 100%);
+}
+.votaciones-table button.delete {
+  background: linear-gradient(90deg, #f44336 60%, #512da8 100%);
+}
+.votaciones-table button.edit:hover {
+  background: linear-gradient(90deg, #0d2346 60%, #512da8 100%);
+}
+.votaciones-table button.delete:hover {
+  background: linear-gradient(90deg, #d32f2f 60%, #512da8 100%);
 }
 
-.votaciones-table tr {
-  border-top: 1px solid #C1C3D1;
-  border-bottom: 1px solid #C1C3D1;
-  color:#000;
-  font-size:16px;
-  font-weight:normal;
-  text-shadow: 0 1px 1px rgba(256, 256, 256, 0.1);
+/* Limpieza: desactivar reglas globales antiguas para evitar conflictos */
+td, tr, th {
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
 }
 
 tr:hover td {

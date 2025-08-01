@@ -7,7 +7,6 @@ const Profile = () => {
   const { fetchProfile } = useGetProfile();
   const [profileData, setProfileData] = useState(null);
 
-  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     const getProfileData = async () => {
       const profileData = await fetchProfile();

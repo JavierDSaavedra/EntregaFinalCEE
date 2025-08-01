@@ -1,89 +1,106 @@
-
-import User from "../entity/user.entity.js";
+import UserEntity from "../entity/user.entity.js";
 import { AppDataSource } from "../config/configDb.js";
+
+
+export async function getUsersByGeneracion(req, res) {
+  try {
+    const repository = AppDataSource.getRepository(UserEntity);
+    const { generacion } = req.params;
+
+    if (!generacion) {
+      return res.status(400).json({ success: false, message: "Debes especificar una generación." });
+    }
+
+    const users = await repository.find({ where: { Generacion: Number(generacion) } });
+    res.status(200).json({ success: true, message: `Usuarios de la generación ${generacion}`, data: users });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Error interno del servidor." });
+  }
+}
+
 
 export async function getUsers(req, res) {
   try {
-    const userRepository = AppDataSource.getRepository(User);
-    const users = await userRepository.find();
-
-    res.status(200).json({ message: "Usuarios encontrados: ", data: users });
+    const repository = AppDataSource.getRepository(UserEntity);
+    const users = await repository.find();
+    res.status(200).json({ success: true, message: "Usuarios encontrados", data: users });
   } catch (error) {
-    console.error("Error en user.controller.js -> getUsers(): ", error);
-    res.status(500).json({ message: "Error interno del servidor." });
+    res.status(500).json({ success: false, message: "Error interno del servidor." });
   }
 }
+
 
 export async function getUserById(req, res) {
   try {
-    const userRepository = AppDataSource.getRepository(User);
+    const repository = AppDataSource.getRepository(UserEntity);
     const { id } = req.params;
-    const user = await userRepository.findOne({ where: { id } });
+    const user = await repository.findOne({ where: { id } });
 
     if (!user) {
-      return res.status(404).json({ message: "Usuario no encontrado." });
+      return res.status(404).json({ success: false, message: "Usuario no encontrado." });
     }
 
-    res.status(200).json({ message: "Usuario encontrado: ", data: user });
+    res.status(200).json({ success: true, message: "Usuario encontrado", data: user });
   } catch (error) {
-    console.error("Error en user.controller.js -> getUserById(): ", error);
-    res.status(500).json({ message: "Error interno del servidor." });
+    res.status(500).json({ success: false, message: "Error interno del servidor." });
   }
 }
 
+
 export async function updateUserById(req, res) {
   try {
-    const userRepository = AppDataSource.getRepository(User);
+    const repository = AppDataSource.getRepository(UserEntity);
     const { id } = req.params;
-    const { username, email, rut } = req.body;
-    const user = await userRepository.findOne({ where: { id } });
+    const { username, email, rut, Generacion, generacion } = req.body;
+    const user = await repository.findOne({ where: { id } });
 
     if (!user) {
-      return res.status(404).json({ message: "Usuario no encontrado." });
+      return res.status(404).json({ success: false, message: "Usuario no encontrado." });
     }
 
     user.username = username || user.username;
     user.email = email || user.email;
     user.rut = rut || user.rut;
+    if (Generacion !== undefined && Generacion !== null) {
+      user.Generacion = Generacion;
+    } else if (generacion !== undefined && generacion !== null) {
+      user.Generacion = generacion;
+    }
 
-    await userRepository.save(user);
-
-    res
-      .status(200)
-      .json({ message: "Usuario actualizado exitosamente.", data: user });
+    await repository.save(user);
+    res.status(200).json({ success: true, message: "Usuario actualizado exitosamente.", data: user });
   } catch (error) {
-    console.error("Error en user.controller.js -> updateUserById(): ", error);
-    res.status(500).json({ message: "Error interno del servidor." });
+    res.status(500).json({ success: false, message: "Error interno del servidor." });
   }
 }
+
 
 export async function deleteUserById(req, res) {
   try {
-    const userRepository = AppDataSource.getRepository(User);
+    const repository = AppDataSource.getRepository(UserEntity);
     const { id } = req.params;
-    const user = await userRepository.findOne({ where: { id } });
+    const user = await repository.findOne({ where: { id } });
 
     if (!user) {
-      return res.status(404).json({ message: "Usuario no encontrado." });
+      return res.status(404).json({ success: false, message: "Usuario no encontrado." });
     }
 
-    await userRepository.remove(user);
-
-    res.status(200).json({ message: "Usuario eliminado exitosamente." });
+    await repository.remove(user);
+    res.status(200).json({ success: true, message: "Usuario eliminado exitosamente." });
   } catch (error) {
-    console.error("Error en user.controller.js -> deleteUserById(): ", error);
-    res.status(500).json({ message: "Error interno del servidor." });
+    res.status(500).json({ success: false, message: "Error interno del servidor." });
   }
 }
 
+
 export async function getProfile(req, res) {
   try {
-    const userRepository = AppDataSource.getRepository(User);
+    const repository = AppDataSource.getRepository(UserEntity);
     const userEmail = req.user.email;
-    const user = await userRepository.findOne({ where: { email: userEmail } });
-    
+    const user = await repository.findOne({ where: { email: userEmail } });
+
     if (!user) {
-      return res.status(404).json({ message: "Perfil no encontrado." });
+      return res.status(404).json({ success: false, message: "Perfil no encontrado." });
     }
 
     const formattedUser = {
@@ -95,9 +112,8 @@ export async function getProfile(req, res) {
       Generacion: user.Generacion
     };
 
-    res.status(200).json({ message: "Perfil encontrado: ", data: formattedUser });
+    res.status(200).json({ success: true, message: "Perfil encontrado", data: formattedUser });
   } catch (error) {
-    console.error("Error en user.controller -> getProfile(): ", error);
-    res.status(500).json({ message: "Error interno del servidor"})
+    res.status(500).json({ success: false, message: "Error interno del servidor" });
   }
 }

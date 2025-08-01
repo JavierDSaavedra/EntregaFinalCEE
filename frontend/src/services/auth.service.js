@@ -29,7 +29,6 @@ export async function loginService(datauser) {
         const { status, data } = response;
         if (status === 200) {
             const decoded = jwtDecode(data.accessToken);
-            // Intenta tomar Generacion del backend si viene en la respuesta, si no del token, si no null
             const Generacion = (data.user && (data.user.Generacion || data.user.generacion)) || decoded.Generacion || decoded.generacion || null;
             const userData = { ...decoded, Generacion };
             sessionStorage.setItem('usuario', JSON.stringify(userData));

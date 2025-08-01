@@ -6,8 +6,16 @@ export const useEditVotacion = (fetchVotaciones) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const formatDate = (dateStr) => {
+    if (!dateStr) return '';
+    // Si ya viene en formato YYYY-MM-DD, úsalo directo
+    if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return dateStr;
+    // Si viene con hora, extrae solo la fecha local
     const date = new Date(dateStr);
-    return isNaN(date) ? '' : date.toISOString().split('T')[0];
+    if (isNaN(date)) return '';
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
   };
 
   const formatTime = (dateStr) => {
@@ -29,12 +37,31 @@ export const useEditVotacion = (fetchVotaciones) => {
       const { value: formData } = await Swal.fire({
         title: 'Editar Votación',
         html: `
+          <label><strong>Título:</strong></label>
           <input id="titulo" class="swal2-input" placeholder="Título" value="${actual?.votacionTitulo || ''}">
+          <label><strong>Descripción:</strong></label>
           <textarea id="descripcion" class="swal2-textarea" placeholder="Descripción">${actual?.votacionDescripcion || ''}</textarea>
-          <input id="fechaInicio" type="date" class="swal2-input" value="${formatDate(actual?.votacionFechaInicio)}">
-          <input id="horaInicio" type="time" class="swal2-input" value="${formatTime(actual?.votacionFechaInicio)}">
-          <input id="fechaFin" type="date" class="swal2-input" value="${formatDate(actual?.votacionFechaFin)}">
-          <input id="horaFin" type="time" class="swal2-input" value="${formatTime(actual?.votacionFechaFin)}">
+          <div style="display:flex;gap:8px;align-items:center;justify-content:space-between;">
+            <div style="flex:1;">
+              <label><strong>Fecha Inicio:</strong></label>
+              <input id="fechaInicio" type="date" class="swal2-input" value="${formatDate(actual?.votacionFechaInicio)}">
+            </div>
+            <div style="flex:1;">
+              <label><strong>Hora Inicio:</strong></label>
+              <input id="horaInicio" type="time" class="swal2-input" value="${formatTime(actual?.votacionFechaInicio)}">
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center;justify-content:space-between;">
+            <div style="flex:1;">
+              <label><strong>Fecha Fin:</strong></label>
+              <input id="fechaFin" type="date" class="swal2-input" value="${formatDate(actual?.votacionFechaFin)}">
+            </div>
+            <div style="flex:1;">
+              <label><strong>Hora Fin:</strong></label>
+              <input id="horaFin" type="time" class="swal2-input" value="${formatTime(actual?.votacionFechaFin)}">
+            </div>
+          </div>
+          <div style="margin-top:10px;color:#888;font-size:0.95em;">El estado de la votación cambiará automáticamente a <b>finalizada</b> cuando pase la fecha de cierre.</div>
         `,
         showCancelButton: true,
         confirmButtonText: 'Actualizar',
@@ -58,8 +85,33 @@ export const useEditVotacion = (fetchVotaciones) => {
 
           const start = new Date(`${fechaInicio}:00`);
           const end = new Date(`${fechaFin}:00`);
+          const now = new Date();
 
           if (end <= start) return Swal.showValidationMessage('La fecha fin debe ser posterior a la de inicio');
+          // Solo mostrar error si la fecha de inicio es anterior a ahora
+          if (start < now) return Swal.showValidationMessage('La fecha de inicio debe ser igual o posterior a la fecha y hora actual');
+
+          // Mostrar resumen antes de confirmar
+          Swal.fire({
+            title: 'Resumen de cambios',
+            html: `
+              <b>Título:</b> ${titulo}<br/>
+              <b>Descripción:</b> ${descripcion}<br/>
+              <b>Fecha de inicio:</b> ${fechaInicio}<br/>
+              <b>Fecha de fin:</b> ${fechaFin}
+            `,
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonText: 'Confirmar',
+            cancelButtonText: 'Volver',
+            focusConfirm: false
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Swal.close();
+            } else {
+              throw new Error('Edición cancelada por el usuario');
+            }
+          });
 
           return {
             votacionTitulo: titulo,

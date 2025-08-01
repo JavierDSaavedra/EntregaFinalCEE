@@ -1,3 +1,202 @@
+/* Tabla de eventos institucional simple */
+.eventos-lista-tabla-box {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 1px 6px #b3d8fd22;
+  padding: 14px 10px 10px 10px;
+  margin-bottom: 18px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.eventos-lista-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Montserrat', 'Roboto', Arial, sans-serif;
+  background: #fff;
+}
+.eventos-lista-tabla th {
+  background: #512da8;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.05em;
+  padding: 10px 6px;
+  border-bottom: 3px solid #b3d8fd;
+  border-right: 1px solid #b3d8fd;
+  text-align: left;
+}
+.eventos-lista-tabla th:last-child {
+  border-right: none;
+}
+.eventos-lista-tabla td {
+  background: #f7faff;
+  color: #0d2346;
+  font-size: 1em;
+  padding: 8px 6px;
+  border-bottom: 1px solid #b3d8fd;
+  border-right: 1px solid #b3d8fd;
+}
+.eventos-lista-tabla td:last-child {
+  border-right: none;
+}
+.eventos-lista-tabla tr:hover td {
+  background: #ede7f6;
+}
+/* Lista de eventos CEE (columna izquierda) */
+.eventos-lista-cee {
+  background: #fff;
+  border-radius: 14px;
+  border-left: 7px solid #512da8;
+  box-shadow: 0 2px 12px #b3d8fd33;
+  padding: 22px 18px 18px 18px;
+  margin-bottom: 18px;
+}
+.eventos-lista-titulo {
+  color: #0d2346;
+  font-size: 1.18rem;
+  font-weight: 700;
+  margin: 0 0 12px 0;
+  letter-spacing: 0.5px;
+  font-family: 'Montserrat', 'Roboto', Arial, sans-serif;
+}
+.eventos-lista-ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.evento-lista-item {
+  background: #f5faff;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px #b3d8fd22;
+  padding: 13px 16px 10px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-left: 4px solid #1976d2;
+  transition: box-shadow 0.18s, border-color 0.18s;
+}
+.evento-lista-item:hover {
+  box-shadow: 0 2px 12px #512da822;
+  border-left: 4px solid #512da8;
+}
+.evento-lista-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+.evento-lista-icono {
+  font-size: 1.2em;
+  color: #512da8;
+}
+.evento-lista-titulo {
+  font-weight: 700;
+  color: #1976d2;
+  font-size: 1.08em;
+}
+.evento-lista-desc {
+  font-size: 0.98em;
+  color: #222;
+  margin-bottom: 2px;
+}
+.evento-lista-fecha {
+  font-size: 0.97em;
+  color: #0d2346;
+  background: #ede7f6;
+  border-radius: 6px;
+  padding: 3px 8px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  width: fit-content;
+  font-family: 'Roboto Mono', 'Consolas', monospace;
+  margin-bottom: 2px;
+}
+.evento-lista-hora {
+  color: #512da8;
+  font-weight: 600;
+}
+.evento-lista-btns {
+  margin-top: 4px;
+  display: flex;
+  gap: 8px;
+}
+.evento-btn {
+  padding: 7px 16px;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 700;
+  font-family: 'Montserrat', 'Roboto', Arial, sans-serif;
+  font-size: 1rem;
+  box-shadow: 0 1px 4px #b3d8fd33;
+  transition: background 0.18s, color 0.18s;
+}
+.evento-btn.edit {
+  background: linear-gradient(90deg, #1976d2 60%, #512da8 100%);
+}
+.evento-btn.delete {
+  background: linear-gradient(90deg, #f44336 60%, #512da8 100%);
+}
+.evento-btn.edit:hover {
+  background: linear-gradient(90deg, #0d2346 60%, #512da8 100%);
+}
+.evento-btn.delete:hover {
+  background: linear-gradient(90deg, #d32f2f 60%, #512da8 100%);
+}
+.evento-lista-vacio {
+  color: #888;
+  font-style: italic;
+  padding: 10px 0 0 0;
+}
+/* Popup visual para evento seleccionado */
+.evento-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.18);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.evento-popup-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.13);
+  padding: 28px 32px 22px 32px;
+  min-width: 320px;
+  max-width: 90vw;
+  min-height: 120px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  animation: popup-fadein 0.18s;
+}
+.evento-popup-close {
+  position: absolute;
+  top: 10px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #888;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+.evento-popup-close:hover {
+  color: #f44336;
+}
+@keyframes popup-fadein {
+  from { opacity: 0; transform: scale(0.97); }
+  to { opacity: 1; transform: scale(1); }
+}
 /* Centrar y espaciar la página de eventos */
 .eventos_page {
   display: flex;
@@ -15,8 +214,10 @@
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   padding: 16px 6px 18px 6px;
-  max-width: 420px;
-  min-width: 220px;
+  max-width: 700px;
+  min-width: 600px;
+  max-width: 700px;
+  min-width: 600px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -51,8 +252,8 @@
   border-radius: 8px;
   padding: 8px 2px 6px 2px;
   width: 100%;
-  min-width: 200px;
-  max-width: 400px;
+  min-width: 600px;
+  max-width: 700px;
   margin: 0 auto;
   box-sizing: border-box;
 }
@@ -290,4 +491,46 @@ td.text-right {
 
 .eventos-table button:active {
   background-color: #388e3c;
+}
+
+/* --- Ajustes para alinear la columna izquierda y mejorar el botón --- */
+.eventos-col-izq-simple {
+  min-width: 340px;
+  max-width: 400px;
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  height: 100%;
+}
+.eventos-addbtn-simple {
+  padding: 12px 0;
+  width: 100%;
+  background: linear-gradient(90deg, #1976d2 60%, #512da8 100%);
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  font-size: 1.13rem;
+  font-weight: 700;
+  margin: 40px 0 24px 0;
+  box-shadow: 0 2px 8px #b3d8fd33;
+  letter-spacing: 0.5px;
+  transition: background 0.18s, box-shadow 0.18s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.eventos-addbtn-simple::before {
+  content: "➕";
+  font-size: 1.2em;
+  margin-right: 6px;
+}
+.eventos-addbtn-simple:hover {
+  background: linear-gradient(90deg, #0d2346 60%, #512da8 100%);
+  box-shadow: 0 4px 16px #b3d8fd44;
 }

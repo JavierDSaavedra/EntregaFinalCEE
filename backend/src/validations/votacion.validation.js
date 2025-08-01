@@ -41,6 +41,7 @@ export const votacionValidations = Joi.object({
         .messages({
         "string.pattern.base": "Formato de fecha inválido. Use YYYY-MM-DD HH:MM",
         "date.invalid": "La fecha de inicio debe ser válida",
+        "date.future": "La fecha de inicio debe ser posterior a la fecha actual"
         }),
     votacionFechaFin: Joi.string()
       .pattern(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/)
